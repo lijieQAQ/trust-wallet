@@ -1,0 +1,57 @@
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import CreateWallet from "../views/CreateWallet.vue";
+import Home from "../views/Home.vue";
+import EnterInput from "../views/EnterInput.vue";
+import CurrencyDetail from "../views/CurrencyDetail.vue";
+import Transfer from "../views/Transfer.vue";
+import Receive from "../views/Receive.vue";
+import Account from "../views/Account.vue";
+
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: "/create-wallet",
+    name: "CreateWallet",
+    component: CreateWallet,
+  },
+  {
+    path: "/enter-input",
+    name: "EnterInput",
+    component: EnterInput,
+  },
+  {
+    path: "/home",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/currency-detail",
+    name: "CurrencyDetail",
+    component: CurrencyDetail,
+  },
+  {
+    path: "/transfer",
+    name: "Transfer",
+    component: Transfer,
+  },
+  {
+    path: "/receive",
+    name: "Receive",
+    component: Receive,
+  },
+  {
+    path: "/account",
+    name: "Account",
+    component: Account,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  next();
+});
+
+export default router;
