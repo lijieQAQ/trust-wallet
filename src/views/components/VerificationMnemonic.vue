@@ -1,41 +1,78 @@
 <template>
   <div class="verification-mnemonic">
-    <div class="title">verification mnemonic</div><!-- 验证助记词 -->
-    <div class="sub-title">Click on the words to put them together in the correct order.</div><!-- 点击单词，把它们按正确地顺序放在一起。 -->
-    <div class="mnemonic-content">
-      <div class="mnemonic-content-cord">
-		  <span
-		    class="item"
-		    @click="clearInput(item)"
-		    v-for="(item, index) in inputMnemonic"
-		    :key="item"
-		    ><span class="item_num">{{ index + 1 }}</span> {{ item }}</span
-		  >
-	  </div>
-      <div class="tip" v-if="!isMatch">wrong order, please try again</div><!-- 顺序不对，请重试 -->
-	  <!-- <div class="tip_finish" v-else>干的漂亮！</div> -->
-    </div>
-    <div class="mnemonic">
-      <template v-for="item in mnemonic.split(' ').sort()">
-        <span
-          :key="item"
-          class="item"
-          @click="inputHandle(item)"
-          v-if="inputMnemonic.indexOf(item) === -1"
-          >{{ item }}</span
+    <div class="enter-input">
+      <div
+        class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] p-2"
+      >
+        <div
+          class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
         >
-      </template>
-    </div>
-    <!-- <div class="copy" :data-clipboard-text="mnemonic" @click="copy">复制</div> -->
-    <div class="footer">
-      <!-- <div class="tip">切勿与任何人分享助记词，安全地存储它！</div> -->
-      <van-button
-        block
-        type="primary"
-        :disabled="inputMnemonic.join(' ') !== mnemonic"
-        @click="handle"
-        >continue</van-button
-      ><!-- 继续 -->
+          <div
+            class="flex items-center justify-center w-full h-full flex-1 flex-col"
+          >
+            <div class="max-w-xs flex items-center flex-col">
+              <img
+                src="../../../assets/logo.png"
+                alt=""
+                class="w-[62px] mx-auto"
+              />
+
+              <div class="pt-4 pb-6 text-center">
+                <p class="title-text text-textPrimary font-medium text-unset">
+                  安全可靠的多链加密货币钱包
+                </p>
+              </div>
+              <div class="flex flex-col w-full">
+                <div class="flex flex-col space-y-2">
+                  <div class="mnemonic-content">
+                    <div class="mnemonic-content-cord">
+                      <span
+                        class="item"
+                        @click="clearInput(item)"
+                        v-for="(item, index) in inputMnemonic"
+                        :key="item"
+                        ><span class="item_num">{{ index + 1 }}</span>
+                        {{ item }}</span
+                      >
+                    </div>
+                    <div class="tip" v-if="!isMatch">
+                      wrong order, please try again
+                    </div>
+                    <!-- 顺序不对，请重试 -->
+                    <!-- <div class="tip_finish" v-else>干的漂亮！</div> -->
+                  </div>
+                  <div class="mnemonic">
+                    <template v-for="item in mnemonic.split(' ').sort()">
+                      <span
+                        :key="item"
+                        class="item"
+                        @click="inputHandle(item)"
+                        v-if="inputMnemonic.indexOf(item) === -1"
+                        >{{ item }}</span
+                      >
+                    </template>
+                  </div>
+                </div>
+                <div class="pt-6 pb-4 w-full">
+                  <div
+                    class="flex w-full"
+                    data-tooltip-id="button-tooltip-2"
+                    data-tooltip-place="top-end"
+                  >
+                    <button
+                      :disabled="inputMnemonic.join(' ') !== mnemonic"
+                      @click="handle"
+                      class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
+                    >
+                      continue
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -96,6 +133,8 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import "../../style/popup.less";
+
 .verification-mnemonic {
   text-align: center;
   position: relative;
@@ -106,53 +145,62 @@ export default defineComponent({
     margin-top: 24px;
     margin-bottom: 10px;
     font-weight: bold;
-    color:#444;
+    color: #444;
   }
   .sub-title {
     font-size: 12px;
-    color:#999;
+    color: #999;
     line-height: 1.6;
     margin: 0 8%;
   }
   .mnemonic-content {
-	margin: 10px 0 30px;
-	display: block;
-    background: #e3e3e3;
+    margin: 10px 0 30px;
+    display: block;
+    background: #fff;
     border-radius: 4px;
-	min-height: 50px;
-	padding:6px 0 34px;
-	position: relative;
-	.tip{ color: rgba(200, 43,43, 0.99);}
-	.item_finish{ color: #4dcb9a }
+    min-height: 50px;
+    padding: 6px 0 34px;
+    color: #000;
+    position: relative;
+    .tip {
+      color: rgba(200, 43, 43, 0.99);
+    }
+    .item_finish {
+      color: #4dcb9a;
+    }
     .tip,
-	.item_finish{
-	  position: absolute;
-	  left: 0;
-	  bottom: 10px;
-	  width:100%;
-	  text-align: center;
-	  overflow: hidden;
-	  display:block;
+    .item_finish {
+      position: absolute;
+      left: 0;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      display: block;
       font-size: 12px;
     }
   }
-  .mnemonic{
-	  margin-top: 26px;
+  .mnemonic {
+    margin-top: 26px;
   }
   .mnemonic,
-  .mnemonic-content-cord{
+  .mnemonic-content-cord {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     .item {
-	  margin: 3px;
+      margin: 3px;
       padding: 4px 8px;
       border: 1px solid #e9e9e9;
       border-radius: 4px;
       background: #fff;
-	  font-size: 12px;
-	  .item_num{ color:#999; }
-	}
+      font-size: 12px;
+      color: #000;
+      cursor: pointer;
+      .item_num {
+        color: #000;
+      }
+    }
   }
   .copy {
     margin: 24px 0;
@@ -171,12 +219,12 @@ export default defineComponent({
       font-size: 14px;
       color: rgba(220, 20, 20, 0.99);
     }
-	button{
-		background-color: #3675bc;
-		font-size:12px;
-		border-radius: 5px;
-		color:#fff;
-	}
+    button {
+      background-color: #3675bc;
+      font-size: 12px;
+      border-radius: 5px;
+      color: #fff;
+    }
   }
 }
 </style>

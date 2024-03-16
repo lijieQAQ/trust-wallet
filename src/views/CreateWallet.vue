@@ -188,7 +188,7 @@ export default defineComponent({
   name: "CreateWallet",
   data: () => {
     return {
-      step: 10, // 创建钱包步骤
+      step: 1, // 创建钱包步骤
       newPassword: "", // 新密码
       mnemonic: "",
       name: "",

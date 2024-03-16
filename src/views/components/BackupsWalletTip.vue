@@ -1,16 +1,40 @@
 <template>
   <div class="backups-wallet-tip">
-    <img src="../../../assets/banner1.png" class="img_show" alt="" />
-    <div class="title">备份提示</div>
-    <!-- 请马上备份您的钱包！ -->
-    <div class="sub-title">获得助记词等于拥有钱包资产所有权</div>
-    <div class="sub-title">助记词由英文单词组成，请抄写并妥善保管。</div>
-    <div class="sub-title">助记词丢失，无法找回，请务必备份助记词。</div>
+    <div class="flex-1">
+      <img src="../../../assets/logo.png" class="img_show" alt="" />
+      <div class="title">备份提示</div>
+      <!-- 请马上备份您的钱包！ -->
+      <div class="sub-title">获得助记词等于拥有钱包资产所有权</div>
+      <div class="sub-title">助记词由英文单词组成，请抄写并妥善保管。</div>
+      <div class="sub-title">助记词丢失，无法找回，请务必备份助记词。</div>
+    </div>
     <!-- 在下一步中，您将看到12个允许您恢复钱包的单词。 -->
-    <div class="footer">
-      <van-button block type="primary" @click="handle(1)">立即备份</van-button
-      ><!-- 继续 -->
-      <van-button block type="primary" @click="handle(0)">稍后备份</van-button>
+    <div class="flex w-full items-center justify-between mt-6 space-x-4">
+      <div
+        class="flex w-full"
+        data-tooltip-id="button-tooltip-2"
+        data-tooltip-place="top-end"
+      >
+        <button
+          type="button"
+          @click="handle(0)"
+          class="outline-none bg-transparent text-backgroundPrimary default-button p-0 w-full"
+        >
+          <p class="title-text text-primary font-medium text-unset">稍后备份</p>
+        </button>
+      </div>
+      <div
+        class="flex w-full"
+        data-tooltip-id="button-tooltip-3"
+        data-tooltip-place="top-end"
+      >
+        <button
+          @click="handle(1)"
+          class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
+        >
+          立即备份
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -32,17 +56,21 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import "../../style/popup.less";
+
 .backups-wallet-tip {
   text-align: center;
   position: relative;
   overflow: hidden;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   .title {
     font-size: 16px;
     margin-top: 24px;
     margin-bottom: 10px;
     font-weight: bold;
-    color: #444;
+    color: #fff;
   }
   .sub-title {
     font-size: 12px;
