@@ -2,7 +2,7 @@
   <div class="swiper-banner">
     <div class="swiper-wrapper">
       <div class="swiper-item">
-        <img src="../../../assets/logo.svg" alt="" class="logo" />
+        <img src="../../../assets/logo.png" alt="" class="logo" />
       </div>
     </div>
   </div>

@@ -24,7 +24,7 @@ export async function SolanaTx(
     SystemProgram.transfer({
       fromPubkey: new PublicKey(fromAddress),
       toPubkey: new PublicKey(to),
-      lamports: Number(amount),
+      lamports: new BigNumber(amount).times(LAMPORTS_PER_SOL).toNumber(),
     })
   );
   tx.feePayer = new PublicKey(fromAddress);

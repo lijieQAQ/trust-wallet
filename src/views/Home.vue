@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <div class="home md:max-w-[438px]">
     <div
-      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[480px] px-2 pt-2"
+      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] px-2 pt-2"
     >
       <div class="flex justify-between">
         <van-popover
@@ -266,7 +266,7 @@
         tabindex="0"
       >
         <div
-          @click="goDetail('sol', balance, wallet.address)"
+          @click="transfer"
           class="flex justify-between space-x-2 mb-5 cursor-pointer items-center"
         >
           <div>
@@ -323,12 +323,15 @@
               </div>
               <div></div>
             </div>
-            <div class="flex flex-row space-x-1 items-center">
+            <div
+              class="flex flex-row space-x-1 items-center"
+              v-bind:class="{ red: type === 0, green: type === 1 }"
+            >
               <div>
                 <small
                   data-testid="asset-fiat-price"
                   class="caption-text text-textSecondary font-normal text-unset"
-                  >$0.28</small
+                  >${{ solPrice }}</small
                 >
               </div>
               <div>
@@ -353,7 +356,7 @@
               <small
                 data-testid="asset-fiat-balance"
                 class="caption-text text-textSecondary font-normal text-unset"
-                >$0.00</small
+                >${{ solPrice * balance }}</small
               >
             </div>
           </div>
@@ -507,18 +510,24 @@
     <van-popup v-model:show="show" position="bottom" :style="{ height: '80%' }">
       <wallet-manage :wallet="wallet" @close="changeCurrency"></wallet-manage>
     </van-popup> -->
+    <van-tabbar v-model="active" @change="change">
+      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item icon="todo-list-o">历史</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import BigNumber from "bignumber.js";
+import { defineComponent, getCurrentInstance } from "vue";
 import { decryptByDES } from "@/utils/Des";
 import { getBalance } from "@/utils/SolanaTx";
 import { LocalWalletModel } from "@/Data/Wallet";
 import Clipboard from "clipboard";
 import QRCode from "qrcodejs2";
+import axios from "axios";
 import "vant/lib/index.css";
-
 // import WalletManage from "./components/WalletManage.vue";
 const addIcon = chrome.runtime.getURL("assets/add.svg");
 const menuIcon = chrome.runtime.getURL("assets/menu.svg");
@@ -527,6 +536,7 @@ export default defineComponent({
   name: "Home",
   data: () => {
     return {
+      active: 0,
       addIcon: addIcon,
       menuIcon: menuIcon,
       show: false,
@@ -535,9 +545,23 @@ export default defineComponent({
       name: "",
       currency: "sol",
       balance: 0,
+      type: 1,
+      solPrice: 0,
+      timer: null,
     };
   },
+  unmounted() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+  },
   created() {
+    this.getSolPrice();
+    this.timer = setInterval(() => {
+      this.getSolPrice();
+    }, 3000);
+    const app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
       const walletArr: Array<LocalWalletModel> = JSON.parse(walletStr);
@@ -545,7 +569,7 @@ export default defineComponent({
       if (wallet) {
         const walletDes = decryptByDES(
           wallet.wallet,
-          sessionStorage.getItem("password")
+          app.appContext.config.globalProperties.password
         );
         if (walletDes) {
           this.wallet = JSON.parse(walletDes);
@@ -559,6 +583,21 @@ export default defineComponent({
     }
   },
   methods: {
+    async getSolPrice() {
+      const response = await axios(
+        `https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT`
+      );
+      const json = await response.data;
+      if (json) {
+        this.type = new BigNumber(json.price).gte(this.solPrice) ? 1 : 0;
+        this.solPrice = new BigNumber(json.price).toFixed(2, 1);
+      }
+    },
+    change(index) {
+      if (index === 1 || index === 2) {
+        this.$router.push(index === 1 ? "history" : "setting");
+      }
+    },
     createQrCode() {
       new QRCode(this.$refs.qrCodeUrl, {
         text: this.wallet.address, // 需要转换为二维码的内容
@@ -589,17 +628,7 @@ export default defineComponent({
         name: "Transfer",
         query: {
           balance: this.balance,
-        },
-      });
-    },
-    // 跳转详情
-    goDetail(currency: string, balance: string, address: string) {
-      this.$router.push({
-        name: "CurrencyDetail",
-        query: {
-          currency: currency,
-          balance: balance,
-          address: address,
+          address: this.wallet.address,
         },
       });
     },
@@ -617,6 +646,12 @@ export default defineComponent({
 @import "../style/popup.less";
 :deep(.wallet-popover) {
   background: rgb(27, 27, 28);
+}
+.red {
+  color: #f6465d;
+}
+.green {
+  color: #0ecb81;
 }
 :deep(.receive-dialog) {
   color: #fff;

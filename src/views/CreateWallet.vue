@@ -171,7 +171,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import CryptoJS from "crypto-js";
 import { initWallet } from "@/utils/CreateWallet";
 import InputPassword from "./components/InputPassword.vue";
@@ -192,6 +192,7 @@ export default defineComponent({
       newPassword: "", // 新密码
       mnemonic: "",
       name: "",
+      app: null,
     };
   },
   components: {
@@ -202,6 +203,9 @@ export default defineComponent({
     ImportMnemonic,
     SwiperBanner,
     CreateNewWallet,
+  },
+  mounted() {
+    this.app = getCurrentInstance();
   },
   methods: {
     // 备份钱包初始化
@@ -261,11 +265,11 @@ export default defineComponent({
           ])
         );
       }
-      sessionStorage.setItem("password", this.newPassword);
-      await this.$router.push("home");
+      this.app.appContext.config.globalProperties.password = this.newPassword;
+      this.$router.push("home");
     },
     encryptByDES(content: string, key: string) {
-      const keyHex = CryptoJS.enc.Utf8.parse(key);
+      const keyHex = CryptoJS.enc.Utf8.parse(CryptoJS.SHA256(key).toString());
       const encrypted = CryptoJS.DES.encrypt(content, keyHex, {
         mode: CryptoJS.mode.ECB,
         padding: CryptoJS.pad.Pkcs7,

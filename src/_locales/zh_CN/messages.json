@@ -1,10 +1,14 @@
 {
   "title": {
-    "message": "This is a title",
-    "description": "The title of the extension page"
+    "message": "Solana Wallet",
+    "description": "Secure crypto wallet to access your digital assets across solana networks."
   },
   "content": {
     "message": "Hello world!",
+    "description": "The content of the extension page"
+  },
+  "addnew": {
+    "message": "添加新钱包",
     "description": "The content of the extension page"
   }
 }

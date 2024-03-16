@@ -6,6 +6,8 @@ import CurrencyDetail from "../views/CurrencyDetail.vue";
 import Transfer from "../views/Transfer.vue";
 import Receive from "../views/Receive.vue";
 import Account from "../views/Account.vue";
+import History from "../views/History.vue";
+import Setting from "../views/Setting.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,6 +39,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/receive",
     name: "Receive",
     component: Receive,
+  },
+  {
+    path: "/history",
+    name: "History",
+    component: History,
+  },
+  {
+    path: "/setting",
+    name: "Setting",
+    component: Setting,
   },
   {
     path: "/account",

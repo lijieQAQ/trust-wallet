@@ -265,7 +265,7 @@
 
 <script lang="ts">
 import Clipboard from "clipboard";
-import { defineComponent } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import { transfer } from "@/utils/Transfer";
 import "vant/lib/index.css";
 
@@ -305,8 +305,34 @@ export default defineComponent({
       });
     },
     async onSubmit() {
-      const result = await transfer(this.address, this.amount);
-
+      const app = getCurrentInstance();
+      const result = await transfer(this.address, this.amount, app.appContext.config.globalProperties.password);
+      const history = localStorage.getItem(
+        `history${this.$route.query.balance}`
+      );
+      if (history) {
+        localStorage.setItem(
+          `history${this.$route.query.balance}`,
+          JSON.stringify(
+            JSON.parse(history).push({
+              hash: result,
+              address: this.address,
+              amount: this.amount,
+            })
+          )
+        );
+      } else {
+        localStorage.setItem(
+          `history${this.$route.query.balance}`,
+          JSON.stringify([
+            {
+              hash: result,
+              address: this.address,
+              amount: this.amount,
+            },
+          ])
+        );
+      }
       if (result) {
         this.show = true;
         this.hash = result;

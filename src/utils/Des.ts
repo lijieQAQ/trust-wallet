@@ -2,10 +2,8 @@
 import CryptoJS from "crypto-js";
 
 export function decryptByDES(ciphertext: string, key: string) {
-  const keyHex = CryptoJS.enc.Utf8.parse(key);
-  const decrypted = CryptoJS.DES.decrypt(ciphertext,
-    keyHex,
-    {
+  const keyHex = CryptoJS.enc.Utf8.parse(CryptoJS.SHA256(key).toString());
+  const decrypted = CryptoJS.DES.decrypt(ciphertext, keyHex, {
     mode: CryptoJS.mode.ECB,
     padding: CryptoJS.pad.Pkcs7,
   });

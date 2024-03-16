@@ -1,7 +1,7 @@
 <template>
   <div class="import-mnemonic">
     <div class="py-[2.75rem]">
-      <img src="../../../assets/logo.svg" alt="" class="w-[62px] mx-auto" />
+      <img src="../../../assets/logo.png" alt="" class="w-[62px] mx-auto" />
     </div>
     <div
       class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
@@ -18,7 +18,7 @@
             此密码用于保护您的钱包，并提供浏览器插件的访问权。它无法重置，且与移动钱包没有关联。
           </p>
           <div class="w-full mt-6 flex flex-col space-y-6">
-            <form class="space-y-6">
+            <div class="space-y-6">
               <div>
                 <div class="text-start">
                   <p class="body-text text-textPrimary font-medium text-unset">
@@ -342,7 +342,6 @@
                   data-tooltip-place="top-end"
                 >
                   <button
-                    type="submit"
                     @click="handle"
                     :disabled="
                       password === '' || repeatPassword === '' || !read
@@ -353,7 +352,7 @@
                   </button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
