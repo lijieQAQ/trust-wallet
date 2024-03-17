@@ -19,7 +19,7 @@
 
               <div class="pt-4 pb-6 text-center">
                 <p class="title-text text-textPrimary font-medium text-unset">
-                  安全可靠的多链加密货币钱包
+                  {{ language.slogan_1 }}
                 </p>
               </div>
               <div class="flex flex-col w-full">
@@ -64,7 +64,7 @@
                       @click="handle"
                       class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                     >
-                      continue
+                      {{ language.continue }}
                     </button>
                   </div>
                 </div>
@@ -85,6 +85,10 @@ export default defineComponent({
   data: () => {
     return {
       inputMnemonic: [],
+      language: {
+        slogan_1: "",
+        continue: "",
+      },
     };
   },
   props: {
@@ -92,6 +96,10 @@ export default defineComponent({
       default: "",
       type: String,
     },
+  },
+  mounted() {
+    this.language.slogan_1 = chrome.i18n.getMessage("slogan_1");
+    this.language.continue = chrome.i18n.getMessage("continue");
   },
   computed: {
     isMatch() {

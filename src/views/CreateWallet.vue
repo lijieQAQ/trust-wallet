@@ -8,10 +8,10 @@
             data-testid="onboarding-step-title"
             class="screamer-text text-textPrimary font-semibold text-unset"
           >
-            欢迎使用Trust Wallet Extension
+            {{ language.welcome }}
           </h2>
           <p class="title-text text-textSecondary font-normal text-unset">
-            深受数百万人信赖的多链钱包
+            {{ language.slogan }}
           </p>
           <div class="w-full mt-6 flex flex-col space-y-6">
             <div class="flex flex-col space-y-6">
@@ -44,12 +44,12 @@
                       <p
                         class="title-text text-textPrimary font-medium text-unset"
                       >
-                        创建一个新钱包
+                        {{ language.addnew }}
                       </p>
                       <p
                         class="title-text text-textSecondary font-normal text-unset"
                       >
-                        使用新钱包重新开始
+                        {{ language.addnew_1 }}
                       </p>
                     </div>
                   </div>
@@ -100,12 +100,12 @@
                       <p
                         class="title-text text-textPrimary font-medium text-unset"
                       >
-                        导入或恢复钱包
+                        {{ language.importwallet }}
                       </p>
                       <p
                         class="title-text text-textSecondary font-normal text-unset"
                       >
-                        使用Secret Phrase导入
+                        {{ language.secretphrase }}
                       </p>
                     </div>
                   </div>
@@ -193,6 +193,14 @@ export default defineComponent({
       mnemonic: "",
       name: "",
       app: null,
+      language: {
+        welcome: "",
+        slogan: "",
+        addnew_1: "",
+        addnew: "",
+        importwallet: "",
+        secretphrase: "",
+      },
     };
   },
   components: {
@@ -206,6 +214,12 @@ export default defineComponent({
   },
   mounted() {
     this.app = getCurrentInstance();
+    this.language.welcome = chrome.i18n.getMessage("welcome");
+    this.language.slogan = chrome.i18n.getMessage("slogan");
+    this.language.addnew_1 = chrome.i18n.getMessage("addnew_1");
+    this.language.addnew = chrome.i18n.getMessage("addnew");
+    this.language.importwallet = chrome.i18n.getMessage("importwallet");
+    this.language.secretphrase = chrome.i18n.getMessage("secretphrase");
   },
   methods: {
     // 备份钱包初始化

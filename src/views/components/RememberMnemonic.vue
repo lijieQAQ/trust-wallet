@@ -22,7 +22,7 @@
             data-testid="onboarding-step-title"
             class="screamer-text text-textPrimary font-semibold text-unset"
           >
-            备份您的Secret Phrase
+            {{language.backyour}}Secret Phrase
           </h2>
           <div class="w-full mt-6 flex flex-col space-y-6">
             <div
@@ -434,7 +434,7 @@
                 <p
                   class="subtitle-text text-textPrimary font-normal text-unset"
                 >
-                  将这12个单词安全备份于一张纸上，切勿与任何人分享。
+                  {{ language.keepthese }}
                 </p>
               </div>
             </div>
@@ -464,7 +464,7 @@
                   data-testid="backup-mnemonic-step-proceed-button"
                   class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                 >
-                  继续
+                  {{ language.continue }}
                 </button>
               </div>
             </div>
@@ -482,7 +482,13 @@ import Clipboard from "clipboard";
 export default defineComponent({
   name: "RememberMnemonic",
   data: () => {
-    return {};
+    return {
+      language: {
+        keepthese: "",
+        backyour: "",
+        continue: "",
+      },
+    };
   },
   props: {
     mnemonic: {
@@ -492,6 +498,9 @@ export default defineComponent({
   },
   components: {},
   mounted() {
+    this.language.keepthese = chrome.i18n.getMessage("keepthese");
+    this.language.backyour = chrome.i18n.getMessage("backyour");
+    this.language.continue = chrome.i18n.getMessage("continue");
     this.encryptionSend();
   },
   methods: {

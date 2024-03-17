@@ -14,14 +14,14 @@
 
             <div class="pt-4 pb-6 text-center">
               <p class="title-text text-textPrimary font-medium text-unset">
-                安全可靠的多链加密货币钱包
+                {{ language.slogan_1 }}
               </p>
             </div>
             <div class="flex flex-col w-full">
               <div class="flex flex-col space-y-2">
                 <div class="text-start">
                   <p class="body-text text-textPrimary font-medium text-unset">
-                    密码
+                    {{ language.password }}
                   </p>
                   <div class="input-field space-x-1 h-12">
                     <input
@@ -103,7 +103,7 @@
                     :disabled="password === ''"
                     class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                   >
-                    解锁
+                    {{ language.unlock }}
                   </button>
                 </div>
               </div>
@@ -115,7 +115,7 @@
         >
           <div class="w-10/12">
             <p class="body-text text-textSecondary font-normal text-unset">
-              无法登录？您可删除现有钱包并设置新钱包
+              {{language.cannotlogin}}
             </p>
           </div>
           <div
@@ -131,7 +131,7 @@
                 class="body-text text-primary font-medium text-unset"
                 @click="reset"
               >
-                重置钱包
+                {{ language.resetwallet }}
               </p>
             </button>
           </div>
@@ -153,9 +153,21 @@ export default defineComponent({
       tip: false,
       showPassword: false,
       app: null,
+      language: {
+        slogan_1: "",
+        password: "",
+        unlock: "",
+        resetwallet: "",
+        cannotlogin: "",
+      },
     };
   },
   created() {
+    this.language.slogan_1 = chrome.i18n.getMessage("slogan_1");
+    this.language.password = chrome.i18n.getMessage("password");
+    this.language.unlock = chrome.i18n.getMessage("unlock");
+    this.language.cannotlogin = chrome.i18n.getMessage("cannotlogin");
+    this.language.resetwallet = chrome.i18n.getMessage("resetwallet");
     this.app = getCurrentInstance();
   },
   methods: {
@@ -171,7 +183,8 @@ export default defineComponent({
         if (wallet) {
           const walletDes = decryptByDES(wallet.wallet, this.password);
           if (Object.prototype.toString.call(walletDes) === "[object String]") {
-            this.app.appContext.config.globalProperties.password = this.password;
+            this.app.appContext.config.globalProperties.password =
+              this.password;
             this.$router.push("home");
           } else {
             this.tip = true;

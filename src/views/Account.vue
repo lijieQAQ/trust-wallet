@@ -28,7 +28,7 @@
           <h3
             class="header-text text-textPrimary font-semibold truncate text-unset"
           >
-            钱包
+            {{ language.wallet }}
           </h3>
         </div>
         <div class="w-7"></div>
@@ -140,7 +140,7 @@
             type="button"
             class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
           >
-            添加新钱包
+            {{ language.addnewwallet }}
           </button>
         </div>
       </div>
@@ -167,10 +167,19 @@ export default defineComponent({
     return {
       wallets: [],
       showPopover: false,
-      actions: [{ text: "设置为默认钱包" }, { text: "移除钱包" }],
+      language: {
+        addnewwallet: "",
+        wallet:'',
+      },
+      actions: [
+        { text: chrome.i18n.getMessage("defaultwallet") },
+        { text: chrome.i18n.getMessage("removewallet") },
+      ],
     };
   },
   created() {
+    this.language.addnewwallet = chrome.i18n.getMessage("addnewwallet");
+    this.language.wallet = chrome.i18n.getMessage("wallet");
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
       this.wallets = JSON.parse(walletStr);
@@ -178,7 +187,7 @@ export default defineComponent({
   },
   methods: {
     onSelect(type, index) {
-      if (type === "设置为默认钱包") {
+      if (type === "") {
         this.handle(index);
       } else {
         if (this.wallets.length === 1) {

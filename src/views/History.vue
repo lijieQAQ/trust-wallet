@@ -25,7 +25,7 @@
         <h3
           class="header-text text-textPrimary font-semibold truncate text-unset"
         >
-          历史记录
+          {{ language.historyrecord }}
         </h3>
       </div>
       <div class="w-7"></div>
@@ -52,9 +52,11 @@
       </li>
     </ul>
     <van-tabbar v-model="active" @change="change">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="todo-list-o">历史</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
+      <van-tabbar-item icon="home-o">{{ language.home }}</van-tabbar-item>
+      <van-tabbar-item icon="todo-list-o">{{
+        language.history
+      }}</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">{{ language.setting }}</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -71,9 +73,19 @@ export default defineComponent({
     return {
       list: [],
       active: 1,
+      language: {
+        historyrecord: "",
+        home: "",
+        history: "",
+        setting: "",
+      },
     };
   },
   created() {
+    this.language.home = chrome.i18n.getMessage("home");
+    this.language.history = chrome.i18n.getMessage("history");
+    this.language.setting = chrome.i18n.getMessage("setting");
+    this.language.historyrecord = chrome.i18n.getMessage("historyrecord");
     const app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {

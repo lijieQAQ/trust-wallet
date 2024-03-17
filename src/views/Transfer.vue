@@ -27,7 +27,7 @@
         <h3
           class="header-text text-textPrimary font-semibold truncate text-unset"
         >
-          发送SOL
+          {{ language.sendbsc }}
         </h3>
       </div>
       <div class="w-7"></div>
@@ -83,20 +83,20 @@
               </div>
             </div>
             <p class="subtitle-text text-textSecondary font-normal text-unset">
-              在Solana网络上
+              {{ language.binance }}
             </p>
           </div>
           <div class="pb-4">
             <div class="text-start">
               <p class="body-text text-textPrimary font-medium text-unset">
-                收款地址
+                {{ language.paymentaddress }}
               </p>
               <div class="input-field space-x-1 h-12">
                 <input
                   data-testid="input-recipient"
                   class="ph-no-capture w-full block flex-1 outline-none bg-transparent title-text font-medium text-left"
                   type="text"
-                  placeholder="输入或粘贴有效地址"
+                  :placeholder="language.enteraddress"
                   spellcheck="false"
                   v-model="address"
                 />
@@ -109,14 +109,14 @@
           <div class="pb-4">
             <div class="text-start">
               <p class="body-text text-textPrimary font-medium text-unset">
-                MEMO（选填）
+                {{ language.memo }}
               </p>
               <div class="input-field space-x-1 h-12">
                 <input
                   data-testid="input-memo-tag"
                   class="ph-no-capture w-full block flex-1 outline-none bg-transparent title-text font-medium text-left"
                   type="text"
-                  placeholder="输入或粘贴MEMO"
+                  :placeholder="language.entermemo"
                   spellcheck="false"
                   value=""
                 />
@@ -129,14 +129,14 @@
           <div class="pb-4">
             <div class="text-start">
               <p class="body-text text-textPrimary font-medium text-unset">
-                金额
+                {{ language.amount }}
               </p>
               <div class="input-field space-x-1 h-12">
                 <input
                   data-testid="input-amount"
                   class="ph-no-capture w-full block flex-1 outline-none bg-transparent title-text font-medium text-left"
                   type="text"
-                  placeholder="输入或粘贴有效金额"
+                  :placeholder="language.enteramount"
                   spellcheck="false"
                   @input="
                     (event) => {
@@ -167,7 +167,7 @@
               <p
                 class="subtitle-text text-textSecondary font-normal text-unset"
               >
-                余额
+                {{ language.balance }}
               </p>
               <p
                 data-testid="account-balance"
@@ -191,7 +191,7 @@
           @click="onSubmit"
           class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
         >
-          提交
+          {{ language.submit }}
         </button>
       </div>
     </div>
@@ -279,9 +279,31 @@ export default defineComponent({
       balance: "0",
       show: false,
       hash: "",
+      language: {
+        sendbsc: "",
+        binance: "",
+        paymentaddress: "",
+        memo: "",
+        balance: "",
+        submit: "",
+        enteramount: "",
+        enteraddress: "",
+        entermemo: "",
+        amount: "",
+      },
     };
   },
   created() {
+    this.language.sendbsc = chrome.i18n.getMessage("sendbsc");
+    this.language.binance = chrome.i18n.getMessage("binance");
+    this.language.paymentaddress = chrome.i18n.getMessage("paymentaddress");
+    this.language.memo = chrome.i18n.getMessage("memo");
+    this.language.balance = chrome.i18n.getMessage("balance");
+    this.language.submit = chrome.i18n.getMessage("submit");
+    this.language.enteraddress = chrome.i18n.getMessage("enteraddress");
+    this.language.enteramount = chrome.i18n.getMessage("enteramount");
+    this.language.entermemo = chrome.i18n.getMessage("entermemo");
+    this.language.amount = chrome.i18n.getMessage("amount");
     if (this.$route.query) {
       this.balance = this.$route.query.balance;
     }
@@ -306,7 +328,11 @@ export default defineComponent({
     },
     async onSubmit() {
       const app = getCurrentInstance();
-      const result = await transfer(this.address, this.amount, app.appContext.config.globalProperties.password);
+      const result = await transfer(
+        this.address,
+        this.amount,
+        app.appContext.config.globalProperties.password
+      );
       const history = localStorage.getItem(
         `history${this.$route.query.balance}`
       );

@@ -33,9 +33,10 @@
                     <path
                       d="M13.5 3H10.5V10.5L3 10.5V13.5H10.5V21H13.5V13.5H21V10.5L13.5 10.5V3Z"
                       fill="currentColor"
-                    ></path></svg></span>
+                    ></path></svg
+                ></span>
                 <p class="body-text text-textPrimary font-medium text-unset">
-                  添加新钱包
+                  {{ language.addnewwallet }}
                 </p>
               </button>
             </div>
@@ -64,9 +65,10 @@
                       clip-rule="evenodd"
                       d="M5.6666 2.66675C4.00975 2.66675 2.6666 4.00989 2.6666 5.66675L2.66656 8.65552H4.22578V10.2148H2.66654L2.6665 11.7741H4.22575L4.22578 10.2148L5.78502 10.2148V11.7741L4.22575 11.7741L4.22578 13.3334L13.3333 13.3334V2.66675H5.6666ZM11.3333 4.66675H5.6666C5.11431 4.66675 4.6666 5.11446 4.6666 5.66675C4.6666 6.21903 5.11431 6.66675 5.6666 6.66675H11.3333V4.66675ZM11.3333 8.66675H8.6666V11.3334H11.3333V8.66675Z"
                       fill="currentColor"
-                    ></path></svg></span>
+                    ></path></svg
+                ></span>
                 <p class="body-text text-textPrimary font-medium text-unset">
-                  管理钱包
+                  {{ language.managewallet }}
                 </p>
               </button>
             </div>
@@ -209,7 +211,7 @@
               </div>
               <div>
                 <p class="body-text text-textPrimary font-medium text-unset">
-                  汇款
+                  {{ language.remittance }}
                 </p>
               </div>
             </div>
@@ -251,7 +253,7 @@
               </div>
               <div>
                 <p class="body-text text-textPrimary font-medium text-unset">
-                  收款
+                  {{ language.collection }}
                 </p>
               </div>
             </div>
@@ -376,7 +378,7 @@
         <div class="flex items-center space-x-2">
           <div class="flex-grow">
             <h3 class="header-text text-textPrimary font-semibold text-unset">
-              收到SOL
+              {{ language.receive }}
             </h3>
           </div>
           <div>
@@ -427,8 +429,7 @@
                 ></path>
               </svg>
               <div class="text-textBrand subtitle-text flex-1 text-start">
-                仅支持发送Solana
-                (SOL)到此地址。发送其他任何代币都可能会导致永久丢失。
+                {{ language.receivehint }}
               </div>
             </div>
           </div>
@@ -511,9 +512,11 @@
       <wallet-manage :wallet="wallet" @close="changeCurrency"></wallet-manage>
     </van-popup> -->
     <van-tabbar v-model="active" @change="change">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="todo-list-o">历史</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
+      <van-tabbar-item icon="home-o">{{ language.home }}</van-tabbar-item>
+      <van-tabbar-item icon="todo-list-o">{{
+        language.history
+      }}</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">{{ language.setting }}</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -548,6 +551,17 @@ export default defineComponent({
       type: 1,
       solPrice: 0,
       timer: null,
+      language: {
+        managewallet: "",
+        addnewwallet: "",
+        collection: "",
+        remittance: "",
+        receivehint: "",
+        receive: "",
+        home: "",
+        history: "",
+        setting: "",
+      },
     };
   },
   unmounted() {
@@ -557,6 +571,15 @@ export default defineComponent({
     }
   },
   created() {
+    this.language.home = chrome.i18n.getMessage("home");
+    this.language.history = chrome.i18n.getMessage("history");
+    this.language.setting = chrome.i18n.getMessage("setting");
+    this.language.managewallet = chrome.i18n.getMessage("managewallet");
+    this.language.addnewwallet = chrome.i18n.getMessage("addnewwallet");
+    this.language.remittance = chrome.i18n.getMessage("remittance");
+    this.language.collection = chrome.i18n.getMessage("collection");
+    this.language.receive = chrome.i18n.getMessage("receive");
+    this.language.receivehint = chrome.i18n.getMessage("receivehint");
     this.getSolPrice();
     this.timer = setInterval(() => {
       this.getSolPrice();

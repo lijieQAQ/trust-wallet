@@ -2,11 +2,11 @@
   <div class="backups-wallet-tip">
     <div class="flex-1">
       <img src="../../../assets/logo.png" class="img_show" alt="" />
-      <div class="title">备份提示</div>
+      <div class="title">{{ language.backuptips }}</div>
       <!-- 请马上备份您的钱包！ -->
-      <div class="sub-title">获得助记词等于拥有钱包资产所有权</div>
-      <div class="sub-title">助记词由英文单词组成，请抄写并妥善保管。</div>
-      <div class="sub-title">助记词丢失，无法找回，请务必备份助记词。</div>
+      <div class="sub-title">{{ language.mnemonicphrasedescription }}</div>
+      <div class="sub-title">{{ language.mnemonicphrasedescription_1 }}</div>
+      <div class="sub-title">{{ language.mnemonicphrasedescription_2 }}</div>
     </div>
     <!-- 在下一步中，您将看到12个允许您恢复钱包的单词。 -->
     <div class="flex w-full items-center justify-between mt-6 space-x-4">
@@ -20,7 +20,9 @@
           @click="handle(0)"
           class="outline-none bg-transparent text-backgroundPrimary default-button p-0 w-full"
         >
-          <p class="title-text text-primary font-medium text-unset">稍后备份</p>
+          <p class="title-text text-primary font-medium text-unset">
+            {{ language.backnow }}
+          </p>
         </button>
       </div>
       <div
@@ -32,7 +34,7 @@
           @click="handle(1)"
           class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
         >
-          立即备份
+          {{ language.backlater }}
         </button>
       </div>
     </div>
@@ -44,7 +46,30 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "BackupsWalletTip",
   data: () => {
-    return {};
+    return {
+      language: {
+        backuptips: "",
+        mnemonicphrasedescription: "",
+        mnemonicphrasedescription_1: "",
+        mnemonicphrasedescription_2: "",
+        backnow: "",
+        backlater: "",
+      },
+    };
+  },
+  created() {
+    this.language.backuptips = chrome.i18n.getMessage("backuptips");
+    this.language.mnemonicphrasedescription = chrome.i18n.getMessage(
+      "mnemonicphrasedescription"
+    );
+    this.language.mnemonicphrasedescription_2 = chrome.i18n.getMessage(
+      "mnemonicphrasedescription_1"
+    );
+    this.language.mnemonicphrasedescription_2 = chrome.i18n.getMessage(
+      "mnemonicphrasedescription_2"
+    );
+    this.language.backnow = chrome.i18n.getMessage("backnow");
+    this.language.backlater = chrome.i18n.getMessage("backlater");
   },
   components: {},
   methods: {

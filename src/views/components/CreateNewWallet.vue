@@ -12,17 +12,17 @@
             data-testid="onboarding-step-title"
             class="screamer-text text-textPrimary font-semibold text-unset"
           >
-            设置密码
+            {{ language.setpassword }}
           </h2>
           <p class="title-text text-textSecondary font-normal text-unset">
-            此密码用于保护您的钱包，并提供浏览器插件的访问权。它无法重置，且与移动钱包没有关联。
+            {{ language.passwordprompt }}
           </p>
           <div class="w-full mt-6 flex flex-col space-y-6">
             <div class="space-y-6">
               <div class="flex flex-col space-y-2">
                 <div class="text-start">
                   <p class="body-text text-textPrimary font-medium text-unset">
-                    新密码
+                    {{ language.newpassword }}
                   </p>
                   <div class="input-field space-x-1 h-12">
                     <input
@@ -31,7 +31,7 @@
                       spellcheck="false"
                       v-model="password"
                       :type="showPassword ? 'text' : 'password'"
-                      placeholder="密码"
+                      :placeholder="language.password"
                     />
                     <div class="flex space-x-2">
                       <div
@@ -117,7 +117,7 @@
                     <p
                       class="subtitle-text text-textSecondary font-normal text-unset"
                     >
-                      8个或以上字母
+                      {{ language.passwordconstraints_1 }}
                     </p>
                   </li>
                   <li class="flex items-center space-x-1">
@@ -144,7 +144,7 @@
                     <p
                       class="subtitle-text text-textSecondary font-normal text-unset"
                     >
-                      至少一个大写字符
+                      {{ language.passwordconstraints_2 }}
                     </p>
                   </li>
                   <li class="flex items-center space-x-1">
@@ -171,7 +171,7 @@
                     <p
                       class="subtitle-text text-textSecondary font-normal text-unset"
                     >
-                      至少一位数字
+                      {{ language.passwordconstraints_3 }}
                     </p>
                   </li>
                   <li class="flex items-center space-x-1">
@@ -200,7 +200,7 @@
                     <p
                       class="subtitle-text text-textSecondary font-normal text-unset"
                     >
-                      至少一个符号
+                      {{ language.passwordconstraints_4 }}
                     </p>
                   </li>
                 </ul>
@@ -208,7 +208,7 @@
               <div class="flex flex-col space-y-2">
                 <div class="text-start">
                   <p class="body-text text-textPrimary font-medium text-unset">
-                    确认新密码
+                    {{ language.confirmnewpassword }}
                   </p>
                   <div class="input-field space-x-1 h-12">
                     <input
@@ -291,13 +291,14 @@
                   /><label
                     for="nmecn"
                     class="ml-2 text-textPrimary subtitle-text font-normal"
-                    >我已阅读并同意<a
+                    >{{ language.termsservice_1
+                    }}<a
                       href="https://trustwallet.com/terms-of-services"
                       target="_blank"
                       rel="noreferrer"
                       class="text-primary"
-                      >服务条款</a
-                    >。</label
+                      >{{ language.termsservice_2 }}</a
+                    >{{ language.period }}</label
                   >
                 </div>
               </div>
@@ -315,7 +316,7 @@
                     class="outline-none bg-transparent text-backgroundPrimary default-button p-0 w-full"
                   >
                     <p class="title-text text-primary font-medium text-unset">
-                      返回
+                      {{ language.return }}
                     </p>
                   </button>
                 </div>
@@ -334,7 +335,7 @@
                     "
                     class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                   >
-                    下一步
+                    {{ language.next }}
                   </button>
                 </div>
               </div>
@@ -360,9 +361,52 @@ export default defineComponent({
       showPassword: false,
       showRepeatPassword: false,
       passwordTip: "",
+      language: {
+        passwordprompt: "",
+        setpassword: "",
+        newpassword: "",
+        password: "",
+        passwordconstraints_1: "",
+        passwordconstraints_2: "",
+        passwordconstraints_3: "",
+        passwordconstraints_4: "",
+        confirmnewpassword: "",
+        repeatpassword: "",
+        termsservice_1: "",
+        termsservice_2: "",
+        period: "",
+        return: "",
+        next: "",
+      },
     };
   },
   components: {},
+  mounted() {
+    this.language.passwordprompt = chrome.i18n.getMessage("passwordprompt");
+    this.language.setpassword = chrome.i18n.getMessage("setpassword");
+    this.language.newpassword = chrome.i18n.getMessage("newpassword");
+    this.language.password = chrome.i18n.getMessage("password");
+    this.language.passwordconstraints_1 = chrome.i18n.getMessage(
+      "passwordconstraints_1"
+    );
+    this.language.passwordconstraints_2 = chrome.i18n.getMessage(
+      "passwordconstraints_2"
+    );
+    this.language.passwordconstraints_3 = chrome.i18n.getMessage(
+      "passwordconstraints_3"
+    );
+    this.language.passwordconstraints_4 = chrome.i18n.getMessage(
+      "passwordconstraints_4"
+    );
+    this.language.confirmnewpassword =
+      chrome.i18n.getMessage("confirmnewpassword");
+    this.language.repeatpassword = chrome.i18n.getMessage("repeatpassword");
+    this.language.termsservice_1 = chrome.i18n.getMessage("termsservice_1");
+    this.language.termsservice_2 = chrome.i18n.getMessage("termsservice_2");
+    this.language.period = chrome.i18n.getMessage("period");
+    this.language.return = chrome.i18n.getMessage("return");
+    this.language.next = chrome.i18n.getMessage("next");
+  },
   methods: {
     submit() {
       if (this.password !== this.repeatPassword) {

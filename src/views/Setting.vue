@@ -27,7 +27,7 @@
         <h3
           class="header-text text-textPrimary font-semibold truncate text-unset"
         >
-          设定
+          {{ language.setting }}
         </h3>
       </div>
       <div class="w-7"></div>
@@ -153,10 +153,10 @@
               </div>
               <div>
                 <p class="title-text text-textPrimary font-medium text-unset">
-                  管理钱包
+                  {{ language.managewallet }}
                 </p>
                 <p class="title-text text-textSecondary font-normal text-unset">
-                  查看和编辑所有钱包
+                  {{ language.allmanagewallet }}
                 </p>
               </div>
             </div>
@@ -206,7 +206,7 @@
               </div>
               <div>
                 <p class="title-text text-textPrimary font-medium text-unset">
-                  查看Secret Phrase
+                  {{ language.check }}Secret Phrase
                 </p>
                 <p
                   class="title-text text-textSecondary font-normal text-unset"
@@ -238,10 +238,10 @@
               </div>
               <div>
                 <p class="title-text text-textPrimary font-medium text-unset">
-                  语言
+                  {{ language.language }}
                 </p>
                 <p class="title-text text-textSecondary font-normal text-unset">
-                  简体中文
+                  {{ language.zh_cn }}
                 </p>
               </div>
             </div>
@@ -288,7 +288,7 @@
               </div>
               <div>
                 <p class="title-text text-textPrimary font-medium text-unset">
-                  锁定
+                  {{ language.locking }}
                 </p>
                 <p
                   class="title-text text-textSecondary font-normal text-unset"
@@ -315,7 +315,7 @@
           <div class="flex items-center space-x-2">
             <div class="flex-grow">
               <h3 class="header-text text-textPrimary font-semibold text-unset">
-                查看助记词
+                {{ language.viewphrase }}
               </h3>
             </div>
             <div>
@@ -353,7 +353,7 @@
                 <input
                   data-testid="password-field"
                   class="ph-no-capture w-full block flex-1 outline-none bg-transparent title-text font-medium text-left"
-                  placeholder="密码"
+                  :placeholder="password"
                   :type="showPassword ? 'text' : 'password'"
                   spellcheck="false"
                   v-model="password"
@@ -443,7 +443,9 @@
                   ></path>
                 </svg>
                 <div class="text-textBrand subtitle-text flex-1 text-start">
-                  切勿分享您的助记词！<br />这些信息可用以窃取您的资金。
+                  {{ language.mnemonicphrasewarn_1 }}<br />{{
+                    language.mnemonicphrasewarn_2
+                  }}
                 </div>
               </div>
             </div>
@@ -459,7 +461,7 @@
                   type="button"
                   class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                 >
-                  显示
+                  {{ language.show }}
                 </button>
               </div>
             </div>
@@ -468,9 +470,11 @@
       </div>
     </div>
     <van-tabbar v-model="active" @change="change">
-      <van-tabbar-item icon="home-o">首页</van-tabbar-item>
-      <van-tabbar-item icon="todo-list-o">历史</van-tabbar-item>
-      <van-tabbar-item icon="setting-o">设置</van-tabbar-item>
+      <van-tabbar-item icon="home-o">{{ language.home }}</van-tabbar-item>
+      <van-tabbar-item icon="todo-list-o">{{
+        language.history
+      }}</van-tabbar-item>
+      <van-tabbar-item icon="setting-o">{{ language.setting }}</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -493,9 +497,45 @@ export default defineComponent({
       active: 2,
       showOpen: false,
       showPassword: false,
+      language: {
+        managewallet: "",
+        allmanagewallet: "",
+        check: "",
+        language: "",
+        zh_cn: "",
+        locking: "",
+        viewphrase: "",
+        password: "",
+        mnemonicphrasewarn_1: "",
+        mnemonicphrasewarn_2: "",
+        show: "",
+        home: "",
+        history: "",
+        setting: "",
+      },
     };
   },
-
+  mounted() {
+    this.language.setting = chrome.i18n.getMessage("setting");
+    this.language.managewallet = chrome.i18n.getMessage("managewallet");
+    this.language.allmanagewallet = chrome.i18n.getMessage("allmanagewallet");
+    this.language.check = chrome.i18n.getMessage("check");
+    this.language.language = chrome.i18n.getMessage("language");
+    this.language.zh_cn = chrome.i18n.getMessage("zh_cn");
+    this.language.viewphrase = chrome.i18n.getMessage("viewphrase");
+    this.language.locking = chrome.i18n.getMessage("locking");
+    this.language.password = chrome.i18n.getMessage("password");
+    this.language.mnemonicphrasewarn_1 = chrome.i18n.getMessage(
+      "mnemonicphrasewarn_1"
+    );
+    this.language.mnemonicphrasewarn_2 = chrome.i18n.getMessage(
+      "mnemonicphrasewarn_2"
+    );
+    this.language.show = chrome.i18n.getMessage("show");
+    this.language.home = chrome.i18n.getMessage("home");
+    this.language.history = chrome.i18n.getMessage("history");
+    this.language.setting = chrome.i18n.getMessage("setting");
+  },
   created() {
     const app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");

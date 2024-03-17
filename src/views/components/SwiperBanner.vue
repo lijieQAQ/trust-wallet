@@ -16,13 +16,12 @@ export default defineComponent({
   components: {},
   data: () => {
     return {
-		a: chrome.i18n.getMessage("extensionName")
-
-	};
+      a: chrome.i18n.getMessage("extensionName"),
+    };
   },
   created() {
-	console.log(chrome.i18n.getMessage('title'))
-	console.log(chrome.i18n.getMessage('content'))
+    console.log(chrome.i18n.getMessage("title"));
+    console.log(chrome.i18n.getMessage("content"));
   },
   methods: {},
 });
