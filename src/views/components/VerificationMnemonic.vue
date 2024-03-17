@@ -2,10 +2,10 @@
   <div class="verification-mnemonic">
     <div class="enter-input">
       <div
-        class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] p-2"
+        class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] p-2"
       >
         <div
-          class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
+          class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
         >
           <div
             class="flex items-center justify-center w-full h-full flex-1 flex-col"

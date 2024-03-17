@@ -1,7 +1,7 @@
 <template>
-  <div class="home md:max-w-[438px]">
+  <div class="home md:max-w-[375px]">
     <div
-      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] px-2 pt-2"
+      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] px-2 pt-2"
     >
       <div class="flex justify-between">
         <van-popover
@@ -33,8 +33,7 @@
                     <path
                       d="M13.5 3H10.5V10.5L3 10.5V13.5H10.5V21H13.5V13.5H21V10.5L13.5 10.5V3Z"
                       fill="currentColor"
-                    ></path></svg
-                ></span>
+                    ></path></svg></span>
                 <p class="body-text text-textPrimary font-medium text-unset">
                   {{ language.addnewwallet }}
                 </p>
@@ -65,8 +64,7 @@
                       clip-rule="evenodd"
                       d="M5.6666 2.66675C4.00975 2.66675 2.6666 4.00989 2.6666 5.66675L2.66656 8.65552H4.22578V10.2148H2.66654L2.6665 11.7741H4.22575L4.22578 10.2148L5.78502 10.2148V11.7741L4.22575 11.7741L4.22578 13.3334L13.3333 13.3334V2.66675H5.6666ZM11.3333 4.66675H5.6666C5.11431 4.66675 4.6666 5.11446 4.6666 5.66675C4.6666 6.21903 5.11431 6.66675 5.6666 6.66675H11.3333V4.66675ZM11.3333 8.66675H8.6666V11.3334H11.3333V8.66675Z"
                       fill="currentColor"
-                    ></path></svg
-                ></span>
+                    ></path></svg></span>
                 <p class="body-text text-textPrimary font-medium text-unset">
                   {{ language.managewallet }}
                 </p>
@@ -107,27 +105,49 @@
             </div>
           </template>
         </van-popover>
-
-        <div
-          class="rounded bg-bg3 p-1 copy cursor-pointer"
-          :data-clipboard-text="wallet.address"
-          @click="copy"
-        >
-          <svg
-            class="text-iconNormal"
-            fill="none"
-            width="20"
-            height="20"
-            viewBox="0 0 25 25"
-            xmlns="http://www.w3.org/2000/svg"
+        <div class="flex gap-2 items-center">
+          <div
+            class="rounded bg-bg3 p-1 copy cursor-pointer"
+            :data-clipboard-text="wallet.address"
+            @click="copy"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M9.45557 3.89441H20.4556V16.8944H17.4556V6.89441H9.45557V3.89441ZM4.45557 8.89441V21.8944H15.4556V8.91477L4.45557 8.89441Z"
-              fill="currentColor"
-            ></path>
-          </svg>
+            <svg
+              class="text-iconNormal"
+              fill="none"
+              width="20"
+              height="20"
+              viewBox="0 0 25 25"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M9.45557 3.89441H20.4556V16.8944H17.4556V6.89441H9.45557V3.89441ZM4.45557 8.89441V21.8944H15.4556V8.91477L4.45557 8.89441Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+          </div>
+          <div
+            class="rounded bg-bg3 p-1 copy cursor-pointer"
+            @click="fullScreen"
+          >
+            <svg
+              t="1710684110995"
+              class="icon"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="4229"
+              width="20"
+              height="20"
+            >
+              <path
+                d="M240.8 196l178.4 178.4-45.6 45.6-177.6-179.2-68 68V128h180.8l-68 68z m133.6 408.8L196 783.2 128 715.2V896h180.8l-68-68 178.4-178.4-44.8-44.8zM715.2 128l68 68-178.4 178.4 45.6 45.6 178.4-178.4 68 68V128H715.2z m-65.6 476.8l-45.6 45.6 178.4 178.4-68 68H896V715.2l-68 68-178.4-178.4z"
+                p-id="4230"
+                fill="#848e9c"
+              ></path>
+            </svg>
+          </div>
         </div>
       </div>
       <div class="flex flex-col mt-[24px] space-y-4 pb-3">
@@ -136,7 +156,7 @@
             <h2
               class="massive-text text-textPrimary font-semibold transition-all ease-in-out duration-300"
             >
-              $0.00
+              ${{ solPrice * balance }}
             </h2>
           </div>
           <div>
@@ -215,10 +235,7 @@
                 </p>
               </div>
             </div>
-            <div
-              class="flex flex-col space-y-2 items-center"
-              @click="show = true"
-            >
+            <div class="flex flex-col space-y-2 items-center" @click="showCode">
               <div
                 data-tooltip-id="circle-action-tooltip-177"
                 data-tooltip-place="top"
@@ -371,7 +388,7 @@
       v-model:show="show"
     >
       <div
-        class="w-full bg-backgroundPrimary rounded-lg max-w-md transform overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
+        class="w-full bg-backgroundPrimary rounded-lg transform overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
         id="headlessui-dialog-panel-15"
         data-headlessui-state="open"
       >
@@ -583,7 +600,7 @@ export default defineComponent({
     this.getSolPrice();
     this.timer = setInterval(() => {
       this.getSolPrice();
-    }, 3000);
+    }, 5000);
     const app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
@@ -599,9 +616,6 @@ export default defineComponent({
           this.getAllBalance();
         }
         this.name = wallet.name;
-        this.$nextTick(() => {
-          this.createQrCode();
-        });
       }
     }
   },
@@ -621,6 +635,12 @@ export default defineComponent({
         this.$router.push(index === 1 ? "history" : "setting");
       }
     },
+    showCode() {
+      this.show = true;
+      this.$nextTick(() => {
+        this.createQrCode();
+      });
+    },
     createQrCode() {
       new QRCode(this.$refs.qrCodeUrl, {
         text: this.wallet.address, // 需要转换为二维码的内容
@@ -629,6 +649,11 @@ export default defineComponent({
         colorDark: "#000000",
         colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.H,
+      });
+    },
+    fullScreen() {
+      chrome.tabs.create({
+        url: "pages/popup.html?type=fullscreen",
       });
     },
     copy() {

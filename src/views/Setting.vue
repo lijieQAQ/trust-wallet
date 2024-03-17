@@ -1,9 +1,9 @@
 <template>
   <div
-    class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] px-2 pt-2"
+    class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] px-2 pt-2"
   >
     <div
-      class="flex items-center w-full self-center space-x-4 pb-2 md:max-w-[438px]"
+      class="flex items-center w-full self-center space-x-4 pb-2 md:max-w-[375px]"
     >
       <div class="w-7">
         <svg
@@ -33,7 +33,7 @@
       <div class="w-7"></div>
     </div>
     <div
-      class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
+      class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
     >
       <div class="relative flex flex-1 w-full">
         <div
@@ -308,7 +308,7 @@
         class="overflow-x-hidden bg-[##5e6673]/[0.25] overflow-y-auto flex fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
       >
         <div
-          class="w-full bg-backgroundPrimary rounded-lg max-w-md transform overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
+          class="w-full bg-backgroundPrimary rounded-lg transform overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
           id="headlessui-dialog-panel-14"
           data-headlessui-state="open"
         >
@@ -497,6 +497,7 @@ export default defineComponent({
       active: 2,
       showOpen: false,
       showPassword: false,
+      app: null,
       language: {
         managewallet: "",
         allmanagewallet: "",
@@ -537,7 +538,7 @@ export default defineComponent({
     this.language.setting = chrome.i18n.getMessage("setting");
   },
   created() {
-    const app = getCurrentInstance();
+    this.app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
       const walletArr: Array<LocalWalletModel> = JSON.parse(walletStr);
@@ -545,7 +546,7 @@ export default defineComponent({
       if (wallet) {
         const walletDes = decryptByDES(
           wallet.wallet,
-          app.appContext.config.globalProperties.password
+          this.app.appContext.config.globalProperties.password
         );
         if (walletDes) {
           const _list = localStorage.getItem(
@@ -589,8 +590,7 @@ export default defineComponent({
       return encrypted.toString();
     },
     lock() {
-      const app = getCurrentInstance();
-      app.appContext.config.globalProperties.password = null;
+      this.app.appContext.config.globalProperties.password = null;
       this.$router.push("enter-input");
     },
   },

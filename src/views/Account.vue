@@ -1,10 +1,10 @@
 <template>
   <div class="account h-full">
     <div
-      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] p-2"
+      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] p-2"
     >
       <div
-        class="flex items-center w-full self-center space-x-4 pb-2 md:max-w-[438px]"
+        class="flex items-center w-full self-center space-x-4 pb-2 md:max-w-[375px]"
       >
         <div class="w-7">
           <svg
@@ -34,7 +34,7 @@
         <div class="w-7"></div>
       </div>
       <div
-        class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
+        class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
       >
         <div class="relative flex flex-1 w-full">
           <div

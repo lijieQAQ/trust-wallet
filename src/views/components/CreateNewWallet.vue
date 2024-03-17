@@ -4,7 +4,7 @@
       <img src="../../../assets/logo.png" alt="" class="w-[62px] mx-auto" />
     </div>
     <div
-      class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
+      class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
     >
       <div class="bg-backgroundPrimary border border-line rounded p-6 mb-11">
         <div class="flex flex-col items-center text-center space-y-4">
@@ -280,28 +280,6 @@
                 </div>
               </div>
               <div class="tip" v-if="tip">Wrong password, please re-enter</div>
-              <div class="flex justify-center">
-                <div class="flex items-center">
-                  <input
-                    data-testid="checkbox-terms-of-service"
-                    id="nmecn"
-                    v-model="read"
-                    type="checkbox"
-                    class="w-4 h-4 accent-primary rounded"
-                  /><label
-                    for="nmecn"
-                    class="ml-2 text-textPrimary subtitle-text font-normal"
-                    >{{ language.termsservice_1
-                    }}<a
-                      href="https://trustwallet.com/terms-of-services"
-                      target="_blank"
-                      rel="noreferrer"
-                      class="text-primary"
-                      >{{ language.termsservice_2 }}</a
-                    >{{ language.period }}</label
-                  >
-                </div>
-              </div>
               <div
                 class="flex w-full items-center justify-between mt-6 space-x-4"
               >
@@ -328,10 +306,7 @@
                   <button
                     @click="submit"
                     :disabled="
-                      password === '' ||
-                      name === '' ||
-                      repeatPassword === '' ||
-                      !read
+                      password === '' || name === '' || repeatPassword === ''
                     "
                     class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
                   >

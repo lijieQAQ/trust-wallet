@@ -21,11 +21,11 @@ export default defineComponent({
   computed: {
   },
   created() {
-    if (window.document.body.clientWidth < 50) {
-      chrome.tabs.create({
-        url: "pages/popup.html",
-      });
-    }
+    // if (window.document.body.clientWidth < 50) {
+    //   chrome.tabs.create({
+    //     url: "pages/popup.html",
+    //   });
+    // }
     // console.log(window.document.body.clientWidth)
     if (localStorage.getItem("wallet")) {
       // sessionStorage.setItem("password", "123456");
@@ -47,7 +47,7 @@ export default defineComponent({
 <style lang="less" scoped>
 @import "../style/popup.less";
 .content {
-  width: 480px;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
 }

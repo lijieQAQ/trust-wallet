@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full md:max-w-[438px]">
+  <div class="w-full md:max-w-[375px]">
     <div
-      class="flex py-[16px] items-center w-full self-center space-x-4 md:max-w-[438px]"
+      class="flex py-[16px] items-center w-full self-center space-x-4 md:max-w-[375px]"
     >
       <div class="w-7">
         <svg
@@ -30,7 +30,7 @@
       </div>
       <div class="w-7"></div>
     </div>
-    <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
       <li class="pb-3 sm:pb-4" v-for="item in list" :key="item.hash">
         <div class="flex items-center space-x-4 rtl:space-x-reverse">
           <div class="flex-1 min-w-0">

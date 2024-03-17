@@ -88,11 +88,11 @@
     "description": "The content of the extension page"
   },
   "welcome": {
-    "message": "欢迎使用Trust Wallet Extension",
+    "message": "欢迎使用Solana Wallet Extension",
     "description": "The content of the extension page"
   },
   "slogan": {
-    "message": "深受数百万人信赖的多链钱包",
+    "message": "深受数百万人信赖的单链钱包",
     "description": "The content of the extension page"
   },
   "backuptips": {
@@ -144,7 +144,7 @@
     "description": "The content of the extension page"
   },
   "slogan_1": {
-    "message": "安全可靠的多链加密货币钱包",
+    "message": "安全可靠的单链加密货币钱包",
     "description": "The content of the extension page"
   },
   "unlock": {

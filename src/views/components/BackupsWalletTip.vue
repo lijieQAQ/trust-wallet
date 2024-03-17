@@ -10,7 +10,7 @@
     </div>
     <!-- 在下一步中，您将看到12个允许您恢复钱包的单词。 -->
     <div class="flex w-full items-center justify-between mt-6 space-x-4">
-      <div
+      <!-- <div
         class="flex w-full"
         data-tooltip-id="button-tooltip-2"
         data-tooltip-place="top-end"
@@ -21,10 +21,10 @@
           class="outline-none bg-transparent text-backgroundPrimary default-button p-0 w-full"
         >
           <p class="title-text text-primary font-medium text-unset">
-            {{ language.backnow }}
+            {{ language.backlater }}
           </p>
         </button>
-      </div>
+      </div> -->
       <div
         class="flex w-full"
         data-tooltip-id="button-tooltip-3"
@@ -34,7 +34,7 @@
           @click="handle(1)"
           class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
         >
-          {{ language.backlater }}
+          {{ language.backnow }}
         </button>
       </div>
     </div>

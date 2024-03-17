@@ -1,10 +1,10 @@
 <template>
   <div class="enter-input">
     <div
-      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[438px] p-2"
+      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] p-2"
     >
       <div
-        class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[438px]"
+        class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
       >
         <div
           class="flex items-center justify-center w-full h-full flex-1 flex-col"
@@ -111,7 +111,7 @@
           </div>
         </div>
         <div
-          class="flex flex-col items-center justify-end text-center w-full border-t-line border-t pt-4"
+          class="flex flex-col items-center justify-end text-center w-full pt-4"
         >
           <div class="w-10/12">
             <p class="body-text text-textSecondary font-normal text-unset">
@@ -163,6 +163,8 @@ export default defineComponent({
     };
   },
   created() {
+    console.log(chrome.i18n.getMessage("unlock"))
+    console.log(chrome.i18n.getMessage("title"))
     this.language.slogan_1 = chrome.i18n.getMessage("slogan_1");
     this.language.password = chrome.i18n.getMessage("password");
     this.language.unlock = chrome.i18n.getMessage("unlock");

@@ -31,6 +31,7 @@ export default defineComponent({
 .swiper-banner {
   .logo {
     width: 62px;
+    height: 62px;
     margin-top: 2.75rem;
     margin-bottom: 2.75rem;
   }
@@ -41,11 +42,6 @@ export default defineComponent({
       width: 100%;
       justify-content: center;
       align-items: center;
-      img {
-        align-items: center;
-        height: 120px;
-        margin-bottom: 20px;
-      }
       h3 {
         text-align: center;
         font-size: 16px;
