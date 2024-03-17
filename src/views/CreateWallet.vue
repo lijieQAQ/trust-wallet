@@ -6,7 +6,7 @@
         <div class="flex flex-col items-center text-center space-y-4">
           <h2
             data-testid="onboarding-step-title"
-            class="screamer-text text-textPrimary font-semibold text-unset"
+            class="screamer-text text-[24px] text-textPrimary font-semibold text-unset"
           >
             {{ language.welcome }}
           </h2>
@@ -80,21 +80,12 @@
                 <div class="flex items-center justify-between py-4 pl-3 pr-4">
                   <div class="flex items-center text-start space-x-4">
                     <div class="flex w-6 h-6">
-                      <svg
-                        class="text-iconNormal"
-                        fill="none"
+                      <img
+                        alt=""
+                        src="../../assets/logo.png"
                         width="20"
-                        height="22"
-                        viewBox="0 0 20 22"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M0 3.17778L9.99992 0V22C2.85712 19.0667 0 13.4444 0 10.2667V3.17778ZM20 3.17778L10.0001 0V1.82357L9.99997 1.82354V20.2132C10 20.2132 10 20.2132 10.0001 20.2132V22C17.1429 19.0667 20 13.4444 20 10.2667V3.17778ZM10.0001 20.2132C15.9706 17.7612 18.3588 13.0617 18.3588 10.4054V4.47982L10.0001 1.82357V20.2132Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
+                        height="20"
+                      />
                     </div>
                     <div class="flex flex-col">
                       <p

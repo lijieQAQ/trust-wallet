@@ -4,7 +4,9 @@
       class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
     >
       <img src="../../../assets/logo.png" alt="" class="w-[62px] mx-auto" />
-      <div class="bg-backgroundPrimary border border-line rounded p-6 mb-11">
+      <div
+        class="bg-backgroundPrimary border border-line rounded p-6 mb-11 mt-4"
+      >
         <div class="flex flex-col items-center text-center space-y-4">
           <div class="w-full flex items-center justify-between space-x-4">
             <div class="w-full flex flex-col items-center justify-center">

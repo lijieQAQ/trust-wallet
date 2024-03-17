@@ -6,7 +6,9 @@
     <div
       class="relative flex flex-col flex-grow w-full h-full self-center pt-2 md:max-w-[375px]"
     >
-      <div class="bg-backgroundPrimary border border-line rounded p-6 mb-11">
+      <div
+        class="bg-backgroundPrimary border border-line rounded p-6 mb-11 mt-4"
+      >
         <div class="flex flex-col items-center text-center space-y-4">
           <h2
             data-testid="onboarding-step-title"

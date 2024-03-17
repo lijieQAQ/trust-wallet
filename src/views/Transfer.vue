@@ -167,7 +167,7 @@
               <p
                 class="subtitle-text text-textSecondary font-normal text-unset"
               >
-                {{ language.balance }}
+                {{ language.balance }}:
               </p>
               <p
                 data-testid="account-balance"
@@ -320,6 +320,7 @@ export default defineComponent({
     copy() {
       const clipboard = new Clipboard(".copy");
       clipboard.on("success", () => {
+        this.$toast("Copy Success");
         clipboard.destroy();
       });
       clipboard.on("error", () => {

@@ -305,10 +305,10 @@
       <div
         id="default-modal"
         aria-hidden="true"
-        class="overflow-x-hidden bg-[##5e6673]/[0.25] overflow-y-auto flex fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center"
+        class="overflow-x-hidden receive-dialog fixed bg-[#5e6673]/[0.25] overflow-y-auto flex top-0 left-0 right-0 md:inset-0 z-50 justify-center items-center"
       >
         <div
-          class="w-full bg-backgroundPrimary rounded-lg transform overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
+          class="w-full bg-backgroundPrimary rounded-lg transform receive-dialog-content overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
           id="headlessui-dialog-panel-14"
           data-headlessui-state="open"
         >
@@ -604,6 +604,13 @@ export default defineComponent({
   margin: 0 auto;
   font-size: 12px;
   margin-top: 8px;
+}
+.receive-dialog {
+  width: 100vw;
+  height: 100vh;
+  .receive-dialog-content {
+    width: 350px;
+  }
 }
 .warning-alert {
   display: flex;

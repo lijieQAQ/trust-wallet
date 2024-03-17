@@ -3,13 +3,14 @@
     <div
       class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] px-2 pt-2"
     >
-      <div class="flex justify-between">
+      <div class="flex justify-between relative" id="popover-box">
         <van-popover
+          placement="bottom-end"
           theme="dark"
           v-model:show="showPopover"
           class="wallet-popover"
         >
-          <div class="p-2 w-[240px]">
+          <div class="p-2 w-[120px]">
             <div
               @click="$router.push('create-wallet')"
               class="flex w-auto"
@@ -73,21 +74,7 @@
           </div>
           <template #reference>
             <div class="flex cursor-pointe items-center gap-[6px]">
-              <svg
-                class="text-primary"
-                fill="none"
-                width="16"
-                height="19"
-                viewBox="0 0 16 19"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M0 3.09998L7.99993 0.5V18.4998C2.28569 16.0999 0 11.4999 0 8.89993V3.09998ZM16 3.09998L8.00007 0.5V1.992L7.99997 1.99197V17.0379C8 17.0379 8.00004 17.0379 8.00007 17.0379V18.4998C13.7143 16.0999 16 11.4999 16 8.89993V3.09998ZM8.00007 17.0379C12.7765 15.0318 14.6871 11.1867 14.6871 9.01342V4.16528L8.00007 1.992V17.0379Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
+              <img alt="" src="../../assets/logo.png" width="18" height="18" />
               <span>{{ name }}</span>
               <svg
                 class="text-iconNormal transition-transform rotate-0"
@@ -128,6 +115,7 @@
             </svg>
           </div>
           <div
+            v-if="!showFull"
             class="rounded bg-bg3 p-1 copy cursor-pointer"
             @click="fullScreen"
           >
@@ -357,7 +345,7 @@
                 <small
                   data-testid="asset-fiat-percentage-change"
                   class="caption-text text-error font-normal text-unset"
-                  >-1.72%</small
+                  >{{ type === 0 ? "-" : "+" }}{{ low }}%</small
                 >
               </div>
             </div>
@@ -564,10 +552,12 @@ export default defineComponent({
       wallet: null,
       name: "",
       currency: "sol",
+      low: "0",
       balance: 0,
       type: 1,
       solPrice: 0,
       timer: null,
+      showFull: window.location.href.includes("fullscreen"),
       language: {
         managewallet: "",
         addnewwallet: "",
@@ -626,6 +616,10 @@ export default defineComponent({
       );
       const json = await response.data;
       if (json) {
+        this.low = new BigNumber(json.price)
+          .minus(this.solPrice)
+          .div(this.solPrice)
+          .toFixed(2, 1);
         this.type = new BigNumber(json.price).gte(this.solPrice) ? 1 : 0;
         this.solPrice = new BigNumber(json.price).toFixed(2, 1);
       }
@@ -659,6 +653,7 @@ export default defineComponent({
     copy() {
       const clipboard = new Clipboard(".copy");
       clipboard.on("success", () => {
+        this.$toast("Copy successfully");
         clipboard.destroy();
       });
       clipboard.on("error", () => {
@@ -703,7 +698,7 @@ export default defineComponent({
 }
 :deep(.receive-dialog) {
   color: #fff;
-  width: 28rem;
+  width: 350px;
   .van-dialog__footer {
     display: none;
   }

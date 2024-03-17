@@ -145,6 +145,7 @@
 import { defineComponent, getCurrentInstance } from "vue";
 import { LocalWalletModel } from "@/Data/Wallet";
 import { decryptByDES } from "@/utils/Des";
+import { initWallet } from "@/utils/CreateWalletTest";
 export default defineComponent({
   name: "EnterInput",
   data() {
@@ -163,14 +164,14 @@ export default defineComponent({
     };
   },
   created() {
-    console.log(chrome.i18n.getMessage("unlock"))
-    console.log(chrome.i18n.getMessage("title"))
     this.language.slogan_1 = chrome.i18n.getMessage("slogan_1");
     this.language.password = chrome.i18n.getMessage("password");
     this.language.unlock = chrome.i18n.getMessage("unlock");
     this.language.cannotlogin = chrome.i18n.getMessage("cannotlogin");
     this.language.resetwallet = chrome.i18n.getMessage("resetwallet");
     this.app = getCurrentInstance();
+    this.password = 'Hibernatespring1.';
+    this.submit();
   },
   methods: {
     reset() {

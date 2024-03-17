@@ -36,7 +36,7 @@
     "description": "The content of the extension page"
   },
   "newpassword": {
-    "message": "新密码",
+    "message": "密码",
     "description": "The content of the extension page"
   },
   "password": {
@@ -60,7 +60,7 @@
     "description": "The content of the extension page"
   },
   "confirmnewpassword": {
-    "message": "确认新密码",
+    "message": "确认密码",
     "description": "The content of the extension page"
   },
   "repeatpassword": {

@@ -36,7 +36,7 @@
     "description": "The content of the extension page"
   },
   "newpassword": {
-    "message": "New Password",
+    "message": "Password",
     "description": "The content of the extension page"
   },
   "password": {
@@ -64,7 +64,7 @@
     "description": "The content of the extension page"
   },
   "confirmnewpassword": {
-    "message": "Confirm the new password",
+    "message": "Confirm the password",
     "description": "The content of the extension page"
   },
   "termsservice_1": {
