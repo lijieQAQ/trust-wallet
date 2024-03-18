@@ -270,5 +270,9 @@
   "continue":{
     "message": "继续",
     "description": "The content of the extension page"
+  },
+  "updatewalletname":{
+    "message": "修改钱包名称",
+    "description": "The content of the extension page"
   }
 }

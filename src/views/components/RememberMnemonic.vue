@@ -26,9 +26,9 @@
           >
             {{language.backyour}}Secret Phrase
           </h2>
-          <div class="w-full mt-6 flex flex-col space-y-6">
+          <div class="w-full mt-4 flex flex-col space-y-6">
             <div
-              class="bg-backgroundSecondary p-4 border-solid rounded-lg transition w-full"
+              class="bg-backgroundSecondary p-3 border-solid rounded-lg transition w-full"
             >
               <div class="flex items-center space-x-6 text-start">
                 <svg

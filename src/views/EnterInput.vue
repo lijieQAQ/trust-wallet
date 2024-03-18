@@ -170,8 +170,8 @@ export default defineComponent({
     this.language.cannotlogin = chrome.i18n.getMessage("cannotlogin");
     this.language.resetwallet = chrome.i18n.getMessage("resetwallet");
     this.app = getCurrentInstance();
-    this.password = 'Hibernatespring1.';
-    this.submit();
+    // this.password = 'Hibernatespring1.';
+    // this.submit();
   },
   methods: {
     reset() {

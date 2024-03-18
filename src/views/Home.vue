@@ -7,10 +7,19 @@
         <van-popover
           placement="bottom-end"
           theme="dark"
-          v-model:show="showPopover"
+          @mouseleave="showPopover = false"
+          :show="showPopover"
           class="wallet-popover"
         >
           <div class="p-2 w-[120px]">
+            <div
+              v-for="(item, index) in wallets"
+              :key="item.name"
+              @click="handle(index)"
+              class="p-2 cursor-pointer"
+            >
+              {{ item.name }}
+            </div>
             <div
               @click="$router.push('create-wallet')"
               class="flex w-auto"
@@ -73,7 +82,10 @@
             </div>
           </div>
           <template #reference>
-            <div class="flex cursor-pointe items-center gap-[6px]">
+            <div
+              @click="showPopover = true"
+              class="flex cursor-pointe items-center gap-[6px]"
+            >
               <img alt="" src="../../assets/logo.png" width="18" height="18" />
               <span>{{ name }}</span>
               <svg
@@ -93,49 +105,93 @@
           </template>
         </van-popover>
         <div class="flex gap-2 items-center">
-          <div
-            class="rounded bg-bg3 p-1 copy cursor-pointer"
-            :data-clipboard-text="wallet.address"
-            @click="copy"
+          <van-popover
+            trigger="manual"
+            class="tooltip-popover"
+            placement="bottom-start"
+            v-model:show="showCopyPopover"
           >
-            <svg
-              class="text-iconNormal"
-              fill="none"
-              width="20"
-              height="20"
-              viewBox="0 0 25 25"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M9.45557 3.89441H20.4556V16.8944H17.4556V6.89441H9.45557V3.89441ZM4.45557 8.89441V21.8944H15.4556V8.91477L4.45557 8.89441Z"
-                fill="currentColor"
-              ></path>
-            </svg>
-          </div>
-          <div
-            v-if="!showFull"
-            class="rounded bg-bg3 p-1 copy cursor-pointer"
-            @click="fullScreen"
+            <div class="py-1 px-4 text-sm">复制</div>
+            <template #reference>
+              <div
+                @mouseenter="showCopyPopover = true"
+                @mouseleave="showCopyPopover = false"
+                class="rounded bg-bg3 p-1 copy cursor-pointer"
+                :data-clipboard-text="wallet.address"
+                @click="copy"
+              >
+                <svg
+                  aria-label="复制"
+                  alt="复制"
+                  class="text-iconNormal"
+                  fill="none"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 25 25"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M9.45557 3.89441H20.4556V16.8944H17.4556V6.89441H9.45557V3.89441ZM4.45557 8.89441V21.8944H15.4556V8.91477L4.45557 8.89441Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+            </template>
+          </van-popover>
+          <van-popover
+            trigger="manual"
+            class="tooltip-popover"
+            placement="bottom-start"
+            v-model:show="showSettingPopover"
           >
-            <svg
-              t="1710684110995"
-              class="icon"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="4229"
-              width="20"
-              height="20"
-            >
-              <path
-                d="M240.8 196l178.4 178.4-45.6 45.6-177.6-179.2-68 68V128h180.8l-68 68z m133.6 408.8L196 783.2 128 715.2V896h180.8l-68-68 178.4-178.4-44.8-44.8zM715.2 128l68 68-178.4 178.4 45.6 45.6 178.4-178.4 68 68V128H715.2z m-65.6 476.8l-45.6 45.6 178.4 178.4-68 68H896V715.2l-68 68-178.4-178.4z"
-                p-id="4230"
-                fill="#848e9c"
-              ></path>
-            </svg>
-          </div>
+            <div class="py-1 px-4 text-sm">设置</div>
+            <template #reference>
+              <div
+                @mouseenter="showSettingPopover = true"
+                @mouseleave="showSettingPopover = false"
+                class="rounded bg-bg3 w-[28px] flex items-center justify-center h-[28px] p-1 copy cursor-pointer"
+                @click="$router.push('setting')"
+              >
+                <van-icon name="setting-o" />
+              </div>
+            </template>
+          </van-popover>
+          <van-popover
+            trigger="manual"
+            placement="bottom-start"
+            class="tooltip-popover"
+            v-model:show="showFullFlag"
+          >
+            <div class="py-1 px-4 text-sm">全屏</div>
+            <template #reference>
+              <div
+                v-if="!showFull"
+                @mouseenter="showFullFlag = true"
+                @mouseleave="showFullFlag = false"
+                class="rounded bg-bg3 p-1 copy cursor-pointer"
+                @click="fullScreen"
+              >
+                <svg
+                  t="1710684110995"
+                  class="icon"
+                  viewBox="0 0 1024 1024"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  p-id="4229"
+                  width="20"
+                  height="20"
+                >
+                  <path
+                    d="M240.8 196l178.4 178.4-45.6 45.6-177.6-179.2-68 68V128h180.8l-68 68z m133.6 408.8L196 783.2 128 715.2V896h180.8l-68-68 178.4-178.4-44.8-44.8zM715.2 128l68 68-178.4 178.4 45.6 45.6 178.4-178.4 68 68V128H715.2z m-65.6 476.8l-45.6 45.6 178.4 178.4-68 68H896V715.2l-68 68-178.4-178.4z"
+                    p-id="4230"
+                    fill="#848e9c"
+                  ></path>
+                </svg>
+              </div>
+            </template>
+          </van-popover>
         </div>
       </div>
       <div class="flex flex-col mt-[24px] space-y-4 pb-3">
@@ -144,42 +200,55 @@
             <h2
               class="massive-text text-textPrimary font-semibold transition-all ease-in-out duration-300"
             >
-              ${{ solPrice * balance }}
+              ${{ total }}
             </h2>
           </div>
           <div>
-            <div
-              data-tooltip-id="refresh-balance-tooltip-4"
-              data-tooltip-content="刷新"
+            <van-popover
+              trigger="manual"
+              placement="bottom-start"
+              class="tooltip-popover"
+              v-model:show="showRefreshPopover"
             >
-              <div
-                class="flex w-full"
-                data-tooltip-id="button-tooltip-5"
-                data-tooltip-place="top-end"
-              >
-                <button
-                  data-testid="refresh-wallet-button"
-                  type="button"
-                  class="outline-none bg-transparent text-backgroundPrimary circle-button p-0 w-full"
+              <div class="py-1 px-4 text-sm">刷新</div>
+              <template #reference>
+                <div
+                  @mouseenter="showRefreshPopover = true"
+                  @mouseleave="showRefreshPopover = false"
+                  data-tooltip-id="refresh-balance-tooltip-4"
+                  @click="getAllBalance"
+                  data-tooltip-content="刷新"
                 >
-                  <svg
-                    class="text-iconNormal -scale-100"
-                    fill="none"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <div
+                    class="flex w-full"
+                    data-tooltip-id="button-tooltip-5"
+                    data-tooltip-place="top-end"
                   >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M16.6631 10.1751C16.6646 10.1169 16.6654 10.0585 16.6654 9.99992C16.6654 9.94134 16.6646 9.88294 16.6631 9.82472V10.1751ZM12.944 12.9475L10.7705 10.774H16.6631V16.6666L14.7116 14.7151C13.5053 15.9209 11.8391 16.6666 9.9987 16.6666C6.89226 16.6666 4.28207 14.5419 3.54203 11.6665H6.1791C6.82204 13.1381 8.29047 14.1666 9.9991 14.1666C11.149 14.1666 12.1901 13.7008 12.944 12.9475ZM16.4553 8.33325C15.7153 5.45787 13.1051 3.33325 9.9987 3.33325C8.15802 3.33325 6.49156 4.07923 5.28518 5.28535L3.33308 3.33325V9.22581H9.22564L7.05315 7.05332C7.80714 6.29949 8.84867 5.83325 9.9991 5.83325C11.7077 5.83325 13.1761 6.86166 13.8191 8.33325H16.4553ZM3.33203 9.99992C3.33203 9.95686 3.33244 9.91391 3.33325 9.87105V10.1288C3.33244 10.0859 3.33203 10.043 3.33203 9.99992Z"
-                      fill="currentColor"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
+                    <button
+                      data-testid="refresh-wallet-button"
+                      type="button"
+                      class="outline-none bg-transparent text-backgroundPrimary circle-button p-0 w-full"
+                    >
+                      <svg
+                        class="text-iconNormal -scale-100"
+                        fill="none"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M16.6631 10.1751C16.6646 10.1169 16.6654 10.0585 16.6654 9.99992C16.6654 9.94134 16.6646 9.88294 16.6631 9.82472V10.1751ZM12.944 12.9475L10.7705 10.774H16.6631V16.6666L14.7116 14.7151C13.5053 15.9209 11.8391 16.6666 9.9987 16.6666C6.89226 16.6666 4.28207 14.5419 3.54203 11.6665H6.1791C6.82204 13.1381 8.29047 14.1666 9.9991 14.1666C11.149 14.1666 12.1901 13.7008 12.944 12.9475ZM16.4553 8.33325C15.7153 5.45787 13.1051 3.33325 9.9987 3.33325C8.15802 3.33325 6.49156 4.07923 5.28518 5.28535L3.33308 3.33325V9.22581H9.22564L7.05315 7.05332C7.80714 6.29949 8.84867 5.83325 9.9991 5.83325C11.7077 5.83325 13.1761 6.86166 13.8191 8.33325H16.4553ZM3.33203 9.99992C3.33203 9.95686 3.33244 9.91391 3.33325 9.87105V10.1288C3.33244 10.0859 3.33203 10.043 3.33203 9.99992Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </template>
+            </van-popover>
           </div>
         </div>
         <div class="max-h-[500px] opacity-100">
@@ -220,6 +289,34 @@
               <div>
                 <p class="body-text text-textPrimary font-medium text-unset">
                   {{ language.remittance }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex flex-col space-y-2 items-center"
+              @click="$router.push('history')"
+            >
+              <div
+                data-tooltip-id="circle-action-tooltip-175"
+                data-tooltip-place="top"
+              >
+                <div
+                  class="flex w-full"
+                  data-tooltip-id="button-tooltip-176"
+                  data-tooltip-place="top-end"
+                >
+                  <button
+                    data-testid="wallet-board-send-button"
+                    type="button"
+                    class="outline-none bg-bg3 text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary circle-button w-full"
+                  >
+                    <van-icon name="todo-list-o" />
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p class="body-text text-textPrimary font-medium text-unset">
+                  {{ language.history }}
                 </p>
               </div>
             </div>
@@ -276,48 +373,7 @@
           @click="transfer"
           class="flex justify-between space-x-2 mb-5 cursor-pointer items-center"
         >
-          <div>
-            <div class="relative min-w-min">
-              <div
-                class="flex items-center justify-center w-full h-full flex-1 flex-row"
-              >
-                <div class="rounded-full overflow-hidden">
-                  <div class="w-8 h-8 flex items-center">
-                    <img
-                      alt="Algorand"
-                      src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png"
-                      class="w-full rounded-full border-1"
-                      width="100%"
-                      height="100%"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                class="absolute -bottom-0.5 -right-0.5"
-                data-tooltip-id="token-network-tooltip-2"
-                data-tooltip-content="Algorand上的Algorand"
-              >
-                <div
-                  class="flex items-center justify-center w-full h-full flex-1 flex-row"
-                >
-                  <div
-                    class="rounded-full overflow-hidden border border-backgroundPrimary bg-backgroundPrimary"
-                  >
-                    <div class="w-4 h-4 flex items-center">
-                      <img
-                        alt="Algorand"
-                        src="https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/algorand/info/logo.png"
-                        class="w-full rounded-full border-1"
-                        width="100%"
-                        height="100%"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <img alt="复制" src="../../assets/logo.png" width="32" height="32" />
           <div class="flex-grow">
             <div class="flex flex-row space-x-1 items-center">
               <div>
@@ -363,7 +419,7 @@
               <small
                 data-testid="asset-fiat-balance"
                 class="caption-text text-textSecondary font-normal text-unset"
-                >${{ solPrice * balance }}</small
+                >${{ total }}</small
               >
             </div>
           </div>
@@ -516,13 +572,13 @@
     <van-popup v-model:show="show" position="bottom" :style="{ height: '80%' }">
       <wallet-manage :wallet="wallet" @close="changeCurrency"></wallet-manage>
     </van-popup> -->
-    <van-tabbar v-model="active" @change="change">
+    <!-- <van-tabbar v-model="active" @change="change">
       <van-tabbar-item icon="home-o">{{ language.home }}</van-tabbar-item>
       <van-tabbar-item icon="todo-list-o">{{
         language.history
       }}</van-tabbar-item>
       <van-tabbar-item icon="setting-o">{{ language.setting }}</van-tabbar-item>
-    </van-tabbar>
+    </van-tabbar> -->
   </div>
 </template>
 
@@ -548,14 +604,21 @@ export default defineComponent({
       addIcon: addIcon,
       menuIcon: menuIcon,
       show: false,
+      wallets: [],
       showPopover: false,
+      showCopyPopover: false,
+      showRefreshPopover: false,
+      showFullFlag: false,
+      showSettingPopover: false,
       wallet: null,
       name: "",
       currency: "sol",
+      total: "0",
       low: "0",
       balance: 0,
       type: 1,
       solPrice: 0,
+      app: null,
       timer: null,
       showFull: window.location.href.includes("fullscreen"),
       language: {
@@ -591,15 +654,18 @@ export default defineComponent({
     this.timer = setInterval(() => {
       this.getSolPrice();
     }, 5000);
-    const app = getCurrentInstance();
+    this.app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
+    if (walletStr) {
+      this.wallets = JSON.parse(walletStr);
+    }
     if (walletStr) {
       const walletArr: Array<LocalWalletModel> = JSON.parse(walletStr);
       const wallet = walletArr.find((el) => el.isDefault === 1);
       if (wallet) {
         const walletDes = decryptByDES(
           wallet.wallet,
-          app.appContext.config.globalProperties.password
+          this.app.appContext.config.globalProperties.password
         );
         if (walletDes) {
           this.wallet = JSON.parse(walletDes);
@@ -611,17 +677,21 @@ export default defineComponent({
   },
   methods: {
     async getSolPrice() {
+      // const response = await axios(
+      //   `https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT`
+      // );
       const response = await axios(
-        `https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT`
+        `https://api.binance.com/api/v3/ticker/24hr?symbol=SOLUSDT`
       );
+      // const json = await response.data;
       const json = await response.data;
       if (json) {
-        this.low = new BigNumber(json.price)
-          .minus(this.solPrice)
-          .div(this.solPrice)
+        this.low = new BigNumber(json.priceChangePercent).toFixed(2, 1);
+        this.type = new BigNumber(json.priceChangePercent).gte(0) ? 1 : 0;
+        this.solPrice = new BigNumber(json.lastPrice).toFixed(2, 1);
+        this.total = new BigNumber(json.lastPrice)
+          .times(this.balance)
           .toFixed(2, 1);
-        this.type = new BigNumber(json.price).gte(this.solPrice) ? 1 : 0;
-        this.solPrice = new BigNumber(json.price).toFixed(2, 1);
       }
     },
     change(index) {
@@ -675,6 +745,25 @@ export default defineComponent({
         },
       });
     },
+    handle(index) {
+      this.wallets.forEach((el, i) => {
+        el.isDefault = i === index ? 1 : 0;
+      });
+      const _wallet = this.wallets.find((el) => el.isDefault === 1);
+      if (_wallet) {
+        const walletDes = decryptByDES(
+          _wallet.wallet,
+          this.app.appContext.config.globalProperties.password
+        );
+        if (walletDes) {
+          this.wallet = JSON.parse(walletDes);
+          this.getAllBalance();
+        }
+        this.name = _wallet.name;
+      }
+      localStorage.setItem("wallet", JSON.stringify(this.wallets));
+      this.showPopover = false;
+    },
     // 获取余额
     async getAllBalance() {
       if (this.wallet) {
@@ -690,6 +779,7 @@ export default defineComponent({
 :deep(.wallet-popover) {
   background: rgb(27, 27, 28);
 }
+
 .red {
   color: #f6465d;
 }

@@ -51,13 +51,13 @@
         </div>
       </li>
     </ul>
-    <van-tabbar v-model="active" @change="change">
+    <!-- <van-tabbar v-model="active" @change="change">
       <van-tabbar-item icon="home-o">{{ language.home }}</van-tabbar-item>
       <van-tabbar-item icon="todo-list-o">{{
         language.history
       }}</van-tabbar-item>
       <van-tabbar-item icon="setting-o">{{ language.setting }}</van-tabbar-item>
-    </van-tabbar>
+    </van-tabbar> -->
   </div>
 </template>
 

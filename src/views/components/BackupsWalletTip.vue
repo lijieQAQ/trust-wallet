@@ -456,6 +456,19 @@
             <div
               class="flex w-full items-center justify-between mt-6 space-x-4"
             >
+            <div
+                class="flex w-full"
+                data-tooltip-id="button-tooltip-37"
+                data-tooltip-place="top-end"
+              >
+                <button
+                  @click="handle(0)"
+                  data-testid="backup-mnemonic-step-proceed-button"
+                  class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
+                >
+                  {{ language.backlater }}
+                </button>
+              </div>
               <div
                 class="flex w-full"
                 data-tooltip-id="button-tooltip-37"
@@ -487,6 +500,7 @@ export default defineComponent({
         keepthese: "",
         backyour: "",
         continue: "",
+        backlater: chrome.i18n.getMessage("backlater")
       },
     };
   },

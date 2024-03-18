@@ -8,6 +8,7 @@ export async function initWallet(mnemonic: string) {
   // 先根据助记词获取seed
   const seed = bip39.mnemonicToSeedSync(mnemonic);
   const derivedSeed = ed25519.derivePath(derivePath, seed.toString("hex")).key;
+  console.log(derivedSeed, 'derivedSeed')
   // 得到私钥和地址
   return {
     privateKey: bs58.encode(

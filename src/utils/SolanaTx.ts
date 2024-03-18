@@ -47,5 +47,5 @@ export async function SolanaTx(
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function getBalance(fromAddress: string) {
   const balance = await connection.getBalance(new PublicKey(fromAddress));
-  return new BigNumber(balance).div(LAMPORTS_PER_SOL).toString();
+  return new BigNumber(balance).div(LAMPORTS_PER_SOL).toFixed(2, 1);
 }

@@ -41,11 +41,11 @@
             class="absolute flex flex-1 flex-col w-full h-full top-0 left-0 items-stretch justify-stretch tw-scrollbar"
           >
             <div
-              class="flex flex-col rounded-xl cursor-pointer bg-bg3 mb-3 p-3"
-            >
+              class="flex flex-col rounded-xl cursor-pointer mb-3">
               <div
-                class="flex items-center justify-between"
+                class="flex items-center justify-between mt-4 bg-bg3 p-3"
                 v-for="(item, index) in wallets"
+                @click="handle(index)"
                 :key="item.wallet"
               >
                 <div class="flex items-center flex-row space-x-4">
@@ -53,21 +53,12 @@
                     <div
                       class="bg-backgroundPrimary p-2 rounded-full relative border"
                     >
-                      <svg
-                        class="text-primary"
-                        fill="none"
+                      <img
+                        alt=""
+                        src="../../assets/logo.png"
                         width="16"
                         height="16"
-                        viewBox="0 0 16 19"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M0 3.09998L7.99993 0.5V18.4998C2.28569 16.0999 0 11.4999 0 8.89993V3.09998ZM16 3.09998L8.00007 0.5V1.992L7.99997 1.99197V17.0379C8 17.0379 8.00004 17.0379 8.00007 17.0379V18.4998C13.7143 16.0999 16 11.4999 16 8.89993V3.09998ZM8.00007 17.0379C12.7765 15.0318 14.6871 11.1867 14.6871 9.01342V4.16528L8.00007 1.992V17.0379Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
+                      />
                       <div
                         v-if="item.isDefault === 1"
                         class="rounded-full p-0.5 bg-primary text-backgroundPrimary absolute -top-1 -right-1"
@@ -100,14 +91,17 @@
                 </div>
                 <div>
                   <van-popover
-                    v-model:show="showPopover"
+                    trigger="manual"
+                    :show="showPopover === item.name"
                     theme="dark"
-                    class="w-[160px]"
+                    @mouseleave="showPopover = ''"
+                    class="w-[130px]"
                     @select="(option) => onSelect(option.text, index)"
                     :actions="actions"
                   >
                     <template #reference>
                       <svg
+                        @mouseenter="showPopover = item.name"
                         class="text-iconNormal hover:text-textPrimary transition"
                         fill="none"
                         width="24"
@@ -153,7 +147,82 @@
       </div>
     </div>
     <van-button type="primary" block @click="$router.push('create-wallet')"
-      >new</van-button> -->
+      >new</van-button> --><div v-if="showOpen" class="flex items-center justify-center">
+      <div
+        id="default-modal"
+        aria-hidden="true"
+        class="overflow-x-hidden receive-dialog fixed bg-[#5e6673]/[0.25] overflow-y-auto flex top-0 left-0 right-0 md:inset-0 z-50 justify-center items-center"
+      >
+        <div
+          class="w-full bg-backgroundPrimary rounded-lg transform receive-dialog-content overflow-hidden py-5 px-4 text-left align-middle shadow-xl transition-all opacity-100 scale-100"
+          id="headlessui-dialog-panel-14"
+          data-headlessui-state="open"
+        >
+          <div class="flex items-center space-x-2">
+            <div>
+              <div
+                class="flex w-full"
+                data-tooltip-id="button-tooltip-18"
+                data-tooltip-place="top-end"
+              >
+                <button
+                  data-testid="close-modal-button"
+                  type="button"
+                  @click="showOpen = false"
+                  class="outline-none bg-transparent text-backgroundPrimary default-button p-0 w-full"
+                >
+                  <svg
+                    class="text-iconNormal"
+                    fill="none"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.69611 5.07538L4.57479 7.1967L9.87809 12.5L4.57479 17.8033L6.69611 19.9246L11.9994 14.6213L17.3027 19.9246L19.424 17.8033L14.1207 12.5L19.424 7.1967L17.3027 5.07538L11.9994 10.3787L6.69611 5.07538Z"
+                      fill="currentColor"
+                    ></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5">
+            <div class="text-start">
+              <div class="input-field space-x-1 h-12">
+                <input
+                  data-testid="password-field"
+                  class="ph-no-capture w-full block flex-1 outline-none bg-transparent title-text font-medium text-left"
+                  type="text"
+                  spellcheck="false"
+                  v-model="name"
+                />
+              </div>
+              <p
+                class="subtitle-text text-textThird font-normal text-unset"
+              ></p>
+            </div>
+            <div class="pt-4">
+              <div
+                class="flex w-full"
+                @click="submit"
+                :disabled="name === ''"
+                data-tooltip-id="button-tooltip-20"
+                data-tooltip-place="top-end"
+              >
+                <button
+                  type="button"
+                  class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
+                >
+                  {{ language.submit }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -166,14 +235,19 @@ export default defineComponent({
   data() {
     return {
       wallets: [],
-      showPopover: false,
+      showPopover: "",
+      name: "",
+      editIndex: 0,
+      showOpen: false,
       language: {
         addnewwallet: "",
-        wallet:'',
+        wallet: "",
+        submit: chrome.i18n.getMessage("submit")
       },
       actions: [
         { text: chrome.i18n.getMessage("defaultwallet") },
         { text: chrome.i18n.getMessage("removewallet") },
+        { text: chrome.i18n.getMessage("updatewalletname") },
       ],
     };
   },
@@ -187,9 +261,9 @@ export default defineComponent({
   },
   methods: {
     onSelect(type, index) {
-      if (type === "") {
+      if (type === chrome.i18n.getMessage("defaultwallet")) {
         this.handle(index);
-      } else {
+      } else if (type === chrome.i18n.getMessage("removewallet")) {
         if (this.wallets.length === 1) {
           localStorage.removeItem("wallet");
           this.$router.push("create-wallet");
@@ -206,6 +280,10 @@ export default defineComponent({
             localStorage.setItem("wallet", JSON.stringify(_wallets));
           }
         }
+      } else if (type === chrome.i18n.getMessage("updatewalletname")) {
+        this.name = this.wallets[index].name;
+        this.showOpen = true;
+        this.editIndex = index;
       }
     },
     handle(index) {
@@ -213,14 +291,28 @@ export default defineComponent({
         el.isDefault = i === index ? 1 : 0;
       });
       localStorage.setItem("wallet", JSON.stringify(this.wallets));
+      this.$router.push("home");
     },
+    submit() {
+      this.wallets.forEach((el, i) => {
+        el.name = i === this.editIndex ? this.name : el.name;
+      });
+      localStorage.setItem("wallet", JSON.stringify(this.wallets));
+      this.showOpen = false;
+    }
   },
 });
 </script>
 
 <style scoped lang="less">
 @import "../style/popup.less";
-
+.receive-dialog {
+  width: 100vw;
+  height: 100vh;
+  .receive-dialog-content {
+    width: 350px;
+  }
+}
 .account {
   padding: 12px;
   .item {
