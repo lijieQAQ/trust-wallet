@@ -140,10 +140,12 @@
                   spellcheck="false"
                   @input="
                     (event) => {
-                      if (event.target.value > balance) {
+                      if (Number(event.target.value) > Number(balance)) {
                         event.target.value = balance;
+                        amount = balance;
                       } else {
                         event.target.value = event.target.value;
+                        amount = event.target.value;
                       }
                     }
                   "
@@ -152,7 +154,16 @@
                       if (event.target.value > balance) {
                         event.target.value = balance;
                       } else {
-                        event.target.value = event.target.value;
+                        if (Number(event.target.value) < 0.01) {
+                          event.target.value = Math.min(
+                            Number(balance),
+                            '0.01'
+                          );
+                          amount = Math.min(Number(balance), '0.01');
+                        } else {
+                          event.target.value = event.target.value;
+                          amount = event.target.value;
+                        }
                       }
                     }
                   "
@@ -176,6 +187,19 @@
                 {{ balance }} SOL
               </p>
             </div>
+            <div class="flex mt-2 space-x-1">
+              <p
+                class="subtitle-text text-textSecondary font-normal text-unset"
+              >
+                {{ language.gasfee }}:
+              </p>
+              <p
+                data-testid="account-balance"
+                class="subtitle-text text-textSecondary font-normal text-unset"
+              >
+                0.000005 SOL
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -187,7 +211,7 @@
         <button
           data-testid="button-prepare-send-tx"
           type="button"
-          :disabled="address === '' || balance === 0 || !amount"
+          :disabled="address === '' || Number(balance) <= 0 || !amount"
           @click="onSubmit"
           class="outline-none bg-primary text-backgroundPrimary hover:bg-primaryHover active:bg-primaryPressed disabled:bg-primaryPressed default-button w-full"
         >
@@ -268,6 +292,9 @@ import Clipboard from "clipboard";
 import { defineComponent, getCurrentInstance } from "vue";
 import { transfer } from "@/utils/Transfer";
 import "vant/lib/index.css";
+import { getMessage } from "@/utils/Utils";
+import { Toast } from "vant";
+import { getBalance } from "@/utils/SolanaTx";
 
 export default defineComponent({
   name: "Transfer",
@@ -279,6 +306,7 @@ export default defineComponent({
       balance: "0",
       show: false,
       hash: "",
+      app: null,
       language: {
         sendbsc: "",
         binance: "",
@@ -289,26 +317,34 @@ export default defineComponent({
         enteramount: "",
         enteraddress: "",
         entermemo: "",
+        gasfee: "",
         amount: "",
       },
     };
   },
   created() {
-    this.language.sendbsc = chrome.i18n.getMessage("sendbsc");
-    this.language.binance = chrome.i18n.getMessage("binance");
-    this.language.paymentaddress = chrome.i18n.getMessage("paymentaddress");
-    this.language.memo = chrome.i18n.getMessage("memo");
-    this.language.balance = chrome.i18n.getMessage("balance");
-    this.language.submit = chrome.i18n.getMessage("submit");
-    this.language.enteraddress = chrome.i18n.getMessage("enteraddress");
-    this.language.enteramount = chrome.i18n.getMessage("enteramount");
-    this.language.entermemo = chrome.i18n.getMessage("entermemo");
-    this.language.amount = chrome.i18n.getMessage("amount");
+    this.app = getCurrentInstance();
+    this.language.sendbsc = getMessage("sendbsc");
+    this.language.binance = getMessage("binance");
+    this.language.paymentaddress = getMessage("paymentaddress");
+    this.language.memo = getMessage("memo");
+    this.language.balance = getMessage("balance");
+    this.language.submit = getMessage("submit");
+    this.language.enteraddress = getMessage("enteraddress");
+    this.language.enteramount = getMessage("enteramount");
+    this.language.entermemo = getMessage("entermemo");
+    this.language.gasfee = getMessage("gasfee");
+    this.language.amount = getMessage("amount");
     if (this.$route.query) {
       this.balance = this.$route.query.balance;
     }
   },
   methods: {
+    async init() {
+      if (!this.balance) {
+        this.balance = await getBalance(this.route.query.address);
+      }
+    },
     close() {
       this.show = false;
       this.hash = "";
@@ -328,29 +364,35 @@ export default defineComponent({
       });
     },
     async onSubmit() {
-      const app = getCurrentInstance();
+      if (Number(this.amount) < 0.01) {
+        this.amount = 0.01;
+      }
+      Toast.loading({
+        message: "Loading...",
+        loadingType: "spinner",
+        duration: 0,
+        forbidClick: true,
+      });
       const result = await transfer(
         this.address,
         this.amount,
-        app.appContext.config.globalProperties.password
+        this.app.appContext.config.globalProperties.password
       );
-      const history = localStorage.getItem(
-        `history${this.$route.query.balance}`
-      );
+      let history = localStorage.getItem(`history${this.$route.query.address}`);
       if (history) {
+        const _history = JSON.parse(history) as Array<any>;
+        _history.push({
+          hash: result,
+          address: this.address,
+          amount: this.amount,
+        });
         localStorage.setItem(
-          `history${this.$route.query.balance}`,
-          JSON.stringify(
-            JSON.parse(history).push({
-              hash: result,
-              address: this.address,
-              amount: this.amount,
-            })
-          )
+          `history${this.$route.query.address}`,
+          JSON.stringify(_history)
         );
       } else {
         localStorage.setItem(
-          `history${this.$route.query.balance}`,
+          `history${this.$route.query.address}`,
           JSON.stringify([
             {
               hash: result,
@@ -361,7 +403,10 @@ export default defineComponent({
         );
       }
       if (result) {
-        this.show = true;
+        Toast.clear();
+        this.$router.push(
+          `detail?hash=${result}&amount=${this.amount}&to=${this.address}`
+        );
         this.hash = result;
       }
     },
@@ -371,6 +416,15 @@ export default defineComponent({
 
 <style scoped lang="less">
 @import "../style/popup.less";
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 :deep(.receive-dialog) {
   color: #fff;
   .van-dialog__footer {

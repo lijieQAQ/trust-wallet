@@ -94,6 +94,7 @@
                     trigger="manual"
                     :show="showPopover === item.name"
                     theme="dark"
+                    placement="left-start"
                     @mouseleave="showPopover = ''"
                     class="w-[130px]"
                     @select="(option) => onSelect(option.text, index)"
@@ -229,6 +230,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import "vant/lib/index.css";
+import { getMessage } from "@/utils/Utils";
 
 export default defineComponent({
   name: "Account",
@@ -242,18 +244,18 @@ export default defineComponent({
       language: {
         addnewwallet: "",
         wallet: "",
-        submit: chrome.i18n.getMessage("submit")
+        submit: getMessage("submit")
       },
       actions: [
-        { text: chrome.i18n.getMessage("defaultwallet") },
-        { text: chrome.i18n.getMessage("removewallet") },
-        { text: chrome.i18n.getMessage("updatewalletname") },
+        { text: getMessage("updatewalletname") },
+        { text: getMessage("defaultwallet") },
+        { text: getMessage("removewallet") },
       ],
     };
   },
   created() {
-    this.language.addnewwallet = chrome.i18n.getMessage("addnewwallet");
-    this.language.wallet = chrome.i18n.getMessage("wallet");
+    this.language.addnewwallet = getMessage("addnewwallet");
+    this.language.wallet = getMessage("wallet");
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
       this.wallets = JSON.parse(walletStr);
@@ -261,9 +263,9 @@ export default defineComponent({
   },
   methods: {
     onSelect(type, index) {
-      if (type === chrome.i18n.getMessage("defaultwallet")) {
+      if (type === getMessage("defaultwallet")) {
         this.handle(index);
-      } else if (type === chrome.i18n.getMessage("removewallet")) {
+      } else if (type === getMessage("removewallet")) {
         if (this.wallets.length === 1) {
           localStorage.removeItem("wallet");
           this.$router.push("create-wallet");
@@ -280,7 +282,7 @@ export default defineComponent({
             localStorage.setItem("wallet", JSON.stringify(_wallets));
           }
         }
-      } else if (type === chrome.i18n.getMessage("updatewalletname")) {
+      } else if (type === getMessage("updatewalletname")) {
         this.name = this.wallets[index].name;
         this.showOpen = true;
         this.editIndex = index;

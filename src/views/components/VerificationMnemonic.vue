@@ -80,6 +80,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Clipboard from "clipboard";
+import { getMessage } from "@/utils/Utils";
 export default defineComponent({
   name: "VerificationMnemonic",
   data: () => {
@@ -98,8 +99,8 @@ export default defineComponent({
     },
   },
   mounted() {
-    this.language.slogan_1 = chrome.i18n.getMessage("slogan_1");
-    this.language.continue = chrome.i18n.getMessage("continue");
+    this.language.slogan_1 = getMessage("slogan_1");
+    this.language.continue = getMessage("continue");
   },
   computed: {
     isMatch() {

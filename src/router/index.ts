@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import CreateWallet from "../views/CreateWallet.vue";
 import Home from "../views/Home.vue";
 import EnterInput from "../views/EnterInput.vue";
-import CurrencyDetail from "../views/CurrencyDetail.vue";
+import Detail from "../views/Detail.vue";
 import Transfer from "../views/Transfer.vue";
 import Receive from "../views/Receive.vue";
 import Account from "../views/Account.vue";
@@ -26,9 +26,9 @@ const routes: Array<RouteRecordRaw> = [
     component: Home,
   },
   {
-    path: "/currency-detail",
-    name: "CurrencyDetail",
-    component: CurrencyDetail,
+    path: "/detail",
+    name: "Detail",
+    component: Detail,
   },
   {
     path: "/transfer",

@@ -241,27 +241,39 @@
                   {{ language.language }}
                 </p>
                 <p class="title-text text-textSecondary font-normal text-unset">
-                  {{ language.zh_cn }}
+                  {{ lang === "zh" ? language.zh_cn : language.english }}
                 </p>
               </div>
             </div>
-            <div>
-              <svg
-                class="text-iconNormal"
-                fill="none"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M12.2886 11.9993L8.3996 8.11035L10.1674 6.34258L15.8242 11.9994L14.0565 13.7672L14.0563 13.7671L10.1672 17.6562L8.39941 15.8885L12.2886 11.9993Z"
-                  fill="currentColor"
-                ></path>
-              </svg>
-            </div>
+            <van-popover
+              trigger="manual"
+              :show="showPopover"
+              theme="dark"
+              placement="left-start"
+              @mouseleave="showPopover = false"
+              class="w-[130px]"
+              @select="(option) => onSelect(option.value)"
+              :actions="actions"
+            >
+              <template #reference>
+                <svg
+                  @click="showPopover = true"
+                  class="text-iconNormal"
+                  fill="none"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12.2886 11.9993L8.3996 8.11035L10.1674 6.34258L15.8242 11.9994L14.0565 13.7672L14.0563 13.7671L10.1672 17.6562L8.39941 15.8885L12.2886 11.9993Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </template>
+            </van-popover>
           </div>
           <div class="border-t border-line my-2"></div>
           <div
@@ -485,6 +497,7 @@ import "vant/lib/index.css";
 import { LocalWalletModel } from "@/Data/Wallet";
 import { decryptByDES } from "@/utils/Des";
 import CryptoJS from "crypto-js";
+import { getMessage } from "@/utils/Utils";
 
 export default defineComponent({
   name: "Setting",
@@ -494,50 +507,36 @@ export default defineComponent({
       password: "",
       mnemonic: "",
       tip: false,
+      showPopover: false,
       active: 2,
       showOpen: false,
       showPassword: false,
       app: null,
+      actions: [
+        { text: "简体中文", value: "zh" },
+        { text: "English", value: "en" },
+      ],
       language: {
-        managewallet: "",
-        allmanagewallet: "",
-        check: "",
-        language: "",
-        zh_cn: "",
-        locking: "",
-        viewphrase: "",
-        password: "",
-        mnemonicphrasewarn_1: "",
-        mnemonicphrasewarn_2: "",
-        show: "",
-        home: "",
-        history: "",
-        setting: "",
+        managewallet: getMessage("managewallet"),
+        allmanagewallet: getMessage("allmanagewallet"),
+        check: getMessage("check"),
+        language: getMessage("language"),
+        zh_cn: getMessage("zh_cn"),
+        locking: getMessage("locking"),
+        viewphrase: getMessage("viewphrase"),
+        password: getMessage("password"),
+        mnemonicphrasewarn_1: getMessage("mnemonicphrasewarn_1"),
+        mnemonicphrasewarn_2: getMessage("mnemonicphrasewarn_2"),
+        show: getMessage("show"),
+        home: getMessage("home"),
+        history: getMessage("history"),
+        setting: getMessage("setting"),
+        english: getMessage("english"),
       },
     };
   },
-  mounted() {
-    this.language.setting = chrome.i18n.getMessage("setting");
-    this.language.managewallet = chrome.i18n.getMessage("managewallet");
-    this.language.allmanagewallet = chrome.i18n.getMessage("allmanagewallet");
-    this.language.check = chrome.i18n.getMessage("check");
-    this.language.language = chrome.i18n.getMessage("language");
-    this.language.zh_cn = chrome.i18n.getMessage("zh_cn");
-    this.language.viewphrase = chrome.i18n.getMessage("viewphrase");
-    this.language.locking = chrome.i18n.getMessage("locking");
-    this.language.password = chrome.i18n.getMessage("password");
-    this.language.mnemonicphrasewarn_1 = chrome.i18n.getMessage(
-      "mnemonicphrasewarn_1"
-    );
-    this.language.mnemonicphrasewarn_2 = chrome.i18n.getMessage(
-      "mnemonicphrasewarn_2"
-    );
-    this.language.show = chrome.i18n.getMessage("show");
-    this.language.home = chrome.i18n.getMessage("home");
-    this.language.history = chrome.i18n.getMessage("history");
-    this.language.setting = chrome.i18n.getMessage("setting");
-  },
   created() {
+    this.lang = localStorage.getItem("lang");
     this.app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
@@ -560,10 +559,56 @@ export default defineComponent({
     }
   },
   methods: {
+    onSelect(value) {
+      this.showPopover = false;
+      localStorage.setItem("lang", value);
+      if (value !== this.lang) {
+        this.lang = value;
+        this.language = {
+          managewallet: getMessage("managewallet"),
+          allmanagewallet: getMessage("allmanagewallet"),
+          check: getMessage("check"),
+          language: getMessage("language"),
+          zh_cn: getMessage("zh_cn"),
+          locking: getMessage("locking"),
+          viewphrase: getMessage("viewphrase"),
+          password: getMessage("password"),
+          mnemonicphrasewarn_1: getMessage("mnemonicphrasewarn_1"),
+          mnemonicphrasewarn_2: getMessage("mnemonicphrasewarn_2"),
+          show: getMessage("show"),
+          home: getMessage("home"),
+          history: getMessage("history"),
+          setting: getMessage("setting"),
+          english: getMessage("english"),
+        };
+      }
+    },
     change(index) {
       if (index === 0 || index === 1) {
         this.$router.push(index === 0 ? "home" : "history");
       }
+    },
+    changeLang() {
+      const _lang = localStorage.getItem("lang");
+      localStorage.setItem("lang", _lang === "zh" ? "en" : "zh");
+      this.lang = _lang === "zh" ? "en" : "zh";
+      this.language = {
+        managewallet: getMessage("managewallet"),
+        allmanagewallet: getMessage("allmanagewallet"),
+        check: getMessage("check"),
+        language: getMessage("language"),
+        zh_cn: getMessage("zh_cn"),
+        locking: getMessage("locking"),
+        viewphrase: getMessage("viewphrase"),
+        password: getMessage("password"),
+        mnemonicphrasewarn_1: getMessage("mnemonicphrasewarn_1"),
+        mnemonicphrasewarn_2: getMessage("mnemonicphrasewarn_2"),
+        show: getMessage("show"),
+        home: getMessage("home"),
+        history: getMessage("history"),
+        setting: getMessage("setting"),
+        english: getMessage("english"),
+      };
     },
     submit() {
       const walletStr = localStorage.getItem("wallet");

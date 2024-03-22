@@ -1,7 +1,7 @@
 {
   "title": {
     "message": "Solana Wallet",
-    "description": "Secure crypto wallet to access your digital assets across solana networks."
+    "description": "A convenient Solana browser wallet."
   },
   "content": {
     "message": "Hello world!",
@@ -256,7 +256,7 @@
     "description": "The content of the extension page"
   },
   "history":{
-    "message": "历史",
+    "message": "历史记录",
     "description": "The content of the extension page"
   },
   "keepthese":{
@@ -273,6 +273,22 @@
   },
   "updatewalletname":{
     "message": "修改钱包名称",
+    "description": "The content of the extension page"
+  },
+  "gasfee":{
+    "message": "手续费",
+    "description": "The content of the extension page"
+  },
+  "youaddress":{
+    "message": "你的地址",
+    "description": "The content of the extension page"
+  },
+  "refresh":{
+    "message": "刷新",
+    "description": "The content of the extension page"
+  },
+  "fullscreen":{
+    "message": "全屏",
     "description": "The content of the extension page"
   }
 }

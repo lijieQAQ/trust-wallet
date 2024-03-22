@@ -1,6 +1,6 @@
 <template>
   <div class="import-mnemonic">
-    <div class="py-[2.75rem]">
+    <div class="py-[12px]">
       <img src="../../../assets/logo.png" alt="" class="w-[62px] mx-auto" />
     </div>
     <div
@@ -340,6 +340,7 @@
 </template>
 
 <script lang="ts">
+import { getMessage } from "@/utils/Utils";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -374,31 +375,31 @@ export default defineComponent({
   },
 
   created() {
-    this.language.setPassword = chrome.i18n.getMessage("setpassword");
-    this.language.passwordPrompt = chrome.i18n.getMessage("passwordprompt");
-    this.language.mnemonicPhrase = chrome.i18n.getMessage("mnemonicphrase");
-    this.language.newPassword = chrome.i18n.getMessage("newpassword");
-    this.language.password = chrome.i18n.getMessage("password");
-    this.language.passwordConstraints_1 = chrome.i18n.getMessage(
+    this.language.setPassword = getMessage("setpassword");
+    this.language.passwordPrompt = getMessage("passwordprompt");
+    this.language.mnemonicPhrase = getMessage("mnemonicphrase");
+    this.language.newPassword = getMessage("newpassword");
+    this.language.password = getMessage("password");
+    this.language.passwordConstraints_1 = getMessage(
       "passwordconstraints_1"
     );
-    this.language.passwordConstraints_2 = chrome.i18n.getMessage(
+    this.language.passwordConstraints_2 = getMessage(
       "passwordconstraints_2"
     );
-    this.language.passwordConstraints_3 = chrome.i18n.getMessage(
+    this.language.passwordConstraints_3 = getMessage(
       "passwordconstraints_3"
     );
-    this.language.passwordConstraints_4 = chrome.i18n.getMessage(
+    this.language.passwordConstraints_4 = getMessage(
       "passwordconstraints_4"
     );
     this.language.confirmNewPassword =
-      chrome.i18n.getMessage("confirmnewpassword");
-    this.language.repeatPassword = chrome.i18n.getMessage("repeatpassword");
-    this.language.termsService_2 = chrome.i18n.getMessage("termsservice_2");
-    this.language.termsService_1 = chrome.i18n.getMessage("termsservice_1");
-    this.language.return = chrome.i18n.getMessage("return");
-    this.language.next = chrome.i18n.getMessage("next");
-    this.language.period = chrome.i18n.getMessage("period");
+      getMessage("confirmnewpassword");
+    this.language.repeatPassword = getMessage("repeatpassword");
+    this.language.termsService_2 = getMessage("termsservice_2");
+    this.language.termsService_1 = getMessage("termsservice_1");
+    this.language.return = getMessage("return");
+    this.language.next = getMessage("next");
+    this.language.period = getMessage("period");
   },
 
   methods: {

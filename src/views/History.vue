@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full md:max-w-[375px]">
+  <div class="w-full px-[12px] md:max-w-[375px]">
     <div
       class="flex py-[16px] items-center w-full self-center space-x-4 md:max-w-[375px]"
     >
@@ -30,23 +30,30 @@
       </div>
       <div class="w-7"></div>
     </div>
-    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-      <li class="pb-3 sm:pb-4" v-for="item in list" :key="item.hash">
-        <div class="flex items-center space-x-4 rtl:space-x-reverse">
+    <ul
+      class="divide-y divide-gray-200 overflow-auto h-[520px] dark:divide-gray-700"
+    >
+      <li
+        class="py-2"
+        v-for="item in history"
+        :key="item.hash"
+        @click="$router.push(`detail?hash=${item.signature}&amount=&to=`)"
+      >
+        <div
+          class="flex items-center cursor-pointer space-x-4 rtl:space-x-reverse"
+        >
           <div class="flex-1 min-w-0">
-            <p
-              class="text-sm font-medium text-gray-900 truncate dark:text-white"
-            >
-              {{ item.hash }}
+            <p class="text-sm font-medium truncate text-white">
+              {{ item.signature }}
             </p>
             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-              {{ item.address }}
+              {{ dateFormat(item.blockTime * 1000) }}
             </p>
           </div>
           <div
-            class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white"
+            class="inline-flex items-center text-base font-semibold text-white"
           >
-            {{ item.amount }}
+            {{ statusFormat(item.confirmationStatus) }}
           </div>
         </div>
       </li>
@@ -66,12 +73,16 @@ import { defineComponent, getCurrentInstance } from "vue";
 import "vant/lib/index.css";
 import { LocalWalletModel } from "@/Data/Wallet";
 import { decryptByDES } from "@/utils/Des";
+import { getMessage } from "@/utils/Utils";
+import dayjs from "dayjs";
+import { getAddressTransactions } from "@/utils/SolanaTx";
+import { Toast } from "vant";
 
 export default defineComponent({
   name: "History",
   data() {
     return {
-      list: [],
+      history: [],
       active: 1,
       language: {
         historyrecord: "",
@@ -82,10 +93,11 @@ export default defineComponent({
     };
   },
   created() {
-    this.language.home = chrome.i18n.getMessage("home");
-    this.language.history = chrome.i18n.getMessage("history");
-    this.language.setting = chrome.i18n.getMessage("setting");
-    this.language.historyrecord = chrome.i18n.getMessage("historyrecord");
+    this.language.home = getMessage("home");
+    this.language.history = getMessage("history");
+    this.language.setting = getMessage("setting");
+    this.language.historyrecord = getMessage("historyrecord");
+
     const app = getCurrentInstance();
     const walletStr = localStorage.getItem("wallet");
     if (walletStr) {
@@ -97,17 +109,28 @@ export default defineComponent({
           app.appContext.config.globalProperties.password
         );
         if (walletDes) {
-          const _list = localStorage.getItem(
-            `history${JSON.parse(walletDes).address}`
-          );
-          if (_list) {
-            this.list = JSON.parse(_list);
-          }
+          this.init(JSON.parse(walletDes).address);
         }
       }
     }
   },
   methods: {
+    statusFormat(value) {
+      return getMessage(value);
+    },
+    dateFormat(data) {
+      return dayjs(data).format("YYYY-DD-DD HH:mm:ss");
+    },
+    async init(address) {
+      Toast.loading({
+        message: "Loading...",
+        loadingType: "spinner",
+        duration: 0,
+        forbidClick: true,
+      });
+      this.history = await getAddressTransactions(address);
+      Toast.clear();
+    },
     change(index) {
       if (index === 0 || index === 2) {
         this.$router.push(index === 0 ? "home" : "setting");

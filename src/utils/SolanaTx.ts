@@ -5,12 +5,16 @@ import {
   Connection,
   PublicKey,
   LAMPORTS_PER_SOL,
-  clusterApiUrl,
 } from "@solana/web3.js";
 import { decode } from "bs58";
 import BigNumber from "bignumber.js";
 
-const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+const connection = new Connection(
+  "https://stylish-aged-friday.solana-mainnet.quiknode.pro/ea19089ea9ab74a641e4edbcff97d188ef11f576/"
+);
+// const connection = new Connection(
+//   "https://boldest-autumn-tab.solana-testnet.quiknode.pro/3392e2b797b5ee61303b746bad0295bb2b67dcb7/"
+// );
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function SolanaTx(
@@ -48,4 +52,15 @@ export async function SolanaTx(
 export async function getBalance(fromAddress: string) {
   const balance = await connection.getBalance(new PublicKey(fromAddress));
   return new BigNumber(balance).div(LAMPORTS_PER_SOL).toFixed(2, 1);
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export async function getTransactionData(hash: string) {
+  const data = await connection.getTransaction(hash);
+  return data;
+}
+
+export async function getAddressTransactions(address: string) {
+  const data = await connection.getSignaturesForAddress(new PublicKey(address));
+  return data;
 }

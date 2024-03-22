@@ -1,7 +1,7 @@
 <template>
   <div class="home md:max-w-[375px]">
     <div
-      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] px-2 pt-2"
+      class="relative flex flex-col flex-1 w-full h-full self-center md:max-w-[375px] px-2 pt-3"
     >
       <div class="flex justify-between relative" id="popover-box">
         <van-popover
@@ -11,16 +11,17 @@
           :show="showPopover"
           class="wallet-popover"
         >
-          <div class="p-2 w-[120px]">
+          <div class="p-2 w-full">
             <div
               v-for="(item, index) in wallets"
               :key="item.name"
               @click="handle(index)"
-              class="p-2 cursor-pointer"
+              class="mb-2 cursor-pointer"
             >
               {{ item.name }}
             </div>
-            <div
+            <div class="flex items-center gap-[12px]">
+              <div
               @click="$router.push('create-wallet')"
               class="flex w-auto"
               data-tooltip-id="button-tooltip-76"
@@ -29,7 +30,7 @@
               <button
                 data-testid="wallet-select-popup-add-wallet-button"
                 type="button"
-                class="outline-none flex text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary badge-button w-auto"
+                class="outline-none items-center flex text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary badge-button w-auto"
               >
                 <span class="pr-1"
                   ><svg
@@ -51,14 +52,14 @@
             </div>
             <div
               @click="$router.push('account')"
-              class="flex w-auto mt-[12px]"
+              class="flex w-auto"
               data-tooltip-id="button-tooltip-77"
               data-tooltip-place="top-end"
             >
               <button
                 data-testid="wallet-select-popup-manage-wallets-button"
                 type="button"
-                class="outline-none flex text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary badge-button w-auto"
+                class="outline-none items-center flex text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary badge-button w-auto"
               >
                 <span class="pr-1"
                   ><svg
@@ -80,6 +81,8 @@
                 </p>
               </button>
             </div>
+            </div>
+           
           </div>
           <template #reference>
             <div
@@ -108,10 +111,10 @@
           <van-popover
             trigger="manual"
             class="tooltip-popover"
-            placement="bottom-start"
+            placement="top-start"
             v-model:show="showCopyPopover"
           >
-            <div class="py-1 px-4 text-sm">复制</div>
+            <div class="py-1 px-4 text-xs">{{ language.youaddress }}</div>
             <template #reference>
               <div
                 @mouseenter="showCopyPopover = true"
@@ -143,10 +146,10 @@
           <van-popover
             trigger="manual"
             class="tooltip-popover"
-            placement="bottom-start"
+            placement="top-start"
             v-model:show="showSettingPopover"
           >
-            <div class="py-1 px-4 text-sm">设置</div>
+            <div class="py-1 px-4 text-xs">{{ language.setting }}</div>
             <template #reference>
               <div
                 @mouseenter="showSettingPopover = true"
@@ -160,11 +163,11 @@
           </van-popover>
           <van-popover
             trigger="manual"
-            placement="bottom-start"
+            placement="top-end"
             class="tooltip-popover"
             v-model:show="showFullFlag"
           >
-            <div class="py-1 px-4 text-sm">全屏</div>
+            <div class="py-1 px-4 text-xs">{{ language.fullscreen }}</div>
             <template #reference>
               <div
                 v-if="!showFull"
@@ -206,11 +209,11 @@
           <div>
             <van-popover
               trigger="manual"
-              placement="bottom-start"
+              placement="top-start"
               class="tooltip-popover"
               v-model:show="showRefreshPopover"
             >
-              <div class="py-1 px-4 text-sm">刷新</div>
+              <div class="py-1 px-4 text-xs">{{ language.refresh }}</div>
               <template #reference>
                 <div
                   @mouseenter="showRefreshPopover = true"
@@ -225,11 +228,13 @@
                     data-tooltip-place="top-end"
                   >
                     <button
+                      @click="getAllBalance"
                       data-testid="refresh-wallet-button"
                       type="button"
                       class="outline-none bg-transparent text-backgroundPrimary circle-button p-0 w-full"
                     >
                       <svg
+                        v-bind:class="{ 'animate-spin': loading }"
                         class="text-iconNormal -scale-100"
                         fill="none"
                         width="20"
@@ -292,34 +297,6 @@
                 </p>
               </div>
             </div>
-            <div
-              class="flex flex-col space-y-2 items-center"
-              @click="$router.push('history')"
-            >
-              <div
-                data-tooltip-id="circle-action-tooltip-175"
-                data-tooltip-place="top"
-              >
-                <div
-                  class="flex w-full"
-                  data-tooltip-id="button-tooltip-176"
-                  data-tooltip-place="top-end"
-                >
-                  <button
-                    data-testid="wallet-board-send-button"
-                    type="button"
-                    class="outline-none bg-bg3 text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary circle-button w-full"
-                  >
-                    <van-icon name="todo-list-o" />
-                  </button>
-                </div>
-              </div>
-              <div>
-                <p class="body-text text-textPrimary font-medium text-unset">
-                  {{ language.history }}
-                </p>
-              </div>
-            </div>
             <div class="flex flex-col space-y-2 items-center" @click="showCode">
               <div
                 data-tooltip-id="circle-action-tooltip-177"
@@ -356,6 +333,34 @@
               <div>
                 <p class="body-text text-textPrimary font-medium text-unset">
                   {{ language.collection }}
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex flex-col space-y-2 items-center"
+              @click="$router.push('history')"
+            >
+              <div
+                data-tooltip-id="circle-action-tooltip-175"
+                data-tooltip-place="top"
+              >
+                <div
+                  class="flex w-full"
+                  data-tooltip-id="button-tooltip-176"
+                  data-tooltip-place="top-end"
+                >
+                  <button
+                    data-testid="wallet-board-send-button"
+                    type="button"
+                    class="outline-none bg-bg3 text-textPrimary hover:bg-backgroundSecondary active:bg-backgroundTertiary circle-button w-full"
+                  >
+                    <van-icon name="todo-list-o" />
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p class="body-text text-textPrimary font-medium text-unset">
+                  {{ language.history }}
                 </p>
               </div>
             </div>
@@ -401,7 +406,7 @@
                 <small
                   data-testid="asset-fiat-percentage-change"
                   class="caption-text text-error font-normal text-unset"
-                  >{{ type === 0 ? "-" : "+" }}{{ low }}%</small
+                  >{{ type === 0 ? "" : "+" }}{{ low }}%</small
                 >
               </div>
             </div>
@@ -498,8 +503,15 @@
             <div
               class="flex items-center justify-center w-full h-full flex-1 flex-row"
             >
-              <div>
+              <div class="relative">
                 <div class="qrcode" ref="qrCodeUrl"></div>
+                <img
+                  class="absolute qrcode-img"
+                  width="42"
+                  height="42"
+                  src="../../assets/logo.png"
+                  alt=""
+                />
               </div>
             </div>
           </div>
@@ -592,6 +604,7 @@ import Clipboard from "clipboard";
 import QRCode from "qrcodejs2";
 import axios from "axios";
 import "vant/lib/index.css";
+import { getMessage } from "@/utils/Utils";
 // import WalletManage from "./components/WalletManage.vue";
 const addIcon = chrome.runtime.getURL("assets/add.svg");
 const menuIcon = chrome.runtime.getURL("assets/menu.svg");
@@ -611,6 +624,7 @@ export default defineComponent({
       showFullFlag: false,
       showSettingPopover: false,
       wallet: null,
+      loading: false,
       name: "",
       currency: "sol",
       total: "0",
@@ -627,6 +641,9 @@ export default defineComponent({
         collection: "",
         remittance: "",
         receivehint: "",
+        youaddress: "",
+        refresh: "",
+        fullscreen: "",
         receive: "",
         home: "",
         history: "",
@@ -641,15 +658,18 @@ export default defineComponent({
     }
   },
   created() {
-    this.language.home = chrome.i18n.getMessage("home");
-    this.language.history = chrome.i18n.getMessage("history");
-    this.language.setting = chrome.i18n.getMessage("setting");
-    this.language.managewallet = chrome.i18n.getMessage("managewallet");
-    this.language.addnewwallet = chrome.i18n.getMessage("addnewwallet");
-    this.language.remittance = chrome.i18n.getMessage("remittance");
-    this.language.collection = chrome.i18n.getMessage("collection");
-    this.language.receive = chrome.i18n.getMessage("receive");
-    this.language.receivehint = chrome.i18n.getMessage("receivehint");
+    this.language.home = getMessage("home");
+    this.language.history = getMessage("history");
+    this.language.setting = getMessage("setting");
+    this.language.managewallet = getMessage("managewallet");
+    this.language.addnewwallet = getMessage("addnewwallet");
+    this.language.remittance = getMessage("remittance");
+    this.language.collection = getMessage("collection");
+    this.language.receive = getMessage("receive");
+    this.language.receivehint = getMessage("receivehint");
+    this.language.youaddress = getMessage("youaddress");
+    this.language.refresh = getMessage("refresh");
+    this.language.fullscreen = getMessage("fullscreen");
     this.getSolPrice();
     this.timer = setInterval(() => {
       this.getSolPrice();
@@ -701,9 +721,11 @@ export default defineComponent({
     },
     showCode() {
       this.show = true;
-      this.$nextTick(() => {
-        this.createQrCode();
-      });
+      if (!this.$refs.qrCodeUrl) {
+        this.$nextTick(() => {
+          this.createQrCode();
+        });
+      }
     },
     createQrCode() {
       new QRCode(this.$refs.qrCodeUrl, {
@@ -767,6 +789,10 @@ export default defineComponent({
     // 获取余额
     async getAllBalance() {
       if (this.wallet) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+        }, 2500);
         // 余额
         this.balance = await getBalance(this.wallet.address);
       }
@@ -777,6 +803,8 @@ export default defineComponent({
 <style scoped lang="less">
 @import "../style/popup.less";
 :deep(.wallet-popover) {
+  width: 350px !important;
+  left: calc(50vw - 175px) !important;
   background: rgb(27, 27, 28);
 }
 
@@ -843,5 +871,9 @@ export default defineComponent({
       font-size: 14px;
     }
   }
+}
+.qrcode-img {
+  left: calc(50% - 21px);
+  top: calc(50% - 21px);
 }
 </style>

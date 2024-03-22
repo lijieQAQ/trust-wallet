@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_title__",
   "description": "__MSG_title__description",
-  "version": "1.1.1",
+  "version": "1.0.0",
   "default_locale": "en",
   "action": {
     "default_title": "__MSG_title__",
@@ -10,12 +10,11 @@
     "default_popup": "pages/popup.html"
   },
   "permissions": [
-    "fullscreen",
-    "tabs"
+    "activeTab"
   ],
   "host_permissions": [
-    "https://bcrcg.org/",
-    "*://*/*"
+    "api.binance.com",
+    "stylish-aged-friday.solana-mainnet.quiknode.pro"
   ],
   "background": {
     "service_worker": "background.js"
@@ -27,7 +26,7 @@
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'",
-    "sandbox": "sandbox allow-scripts; script-src 'self' 'https://apis.google.com/' 'https://www.gstatic.com/' 'https://*.firebaseio.com' 'https://www.googleapis.com' 'https://ajax.googleapis.com'; object-src 'self'"
+    "sandbox": "sandbox allow-scripts; script-src 'self'; object-src 'self'"
   },
   "content_scripts": [
     {

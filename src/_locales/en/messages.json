@@ -1,7 +1,7 @@
 {
   "title": {
     "message": "Solana Wallet",
-    "description": "Secure crypto wallet to access your digital assets across solana networks."
+    "description": "A convenient Solana browser wallet."
   },
   "content": {
     "message": "Hello world!",
@@ -273,6 +273,10 @@
   },
   "updatewalletname":{
     "message": "Edit Wallet Name",
+    "description": "The content of the extension page"
+  },
+  "gasfee":{
+    "message": "Gas Fee",
     "description": "The content of the extension page"
   }
 }

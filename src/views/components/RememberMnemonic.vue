@@ -480,6 +480,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import Clipboard from "clipboard";
+import { getMessage } from "@/utils/Utils";
 
 export default defineComponent({
   name: "RememberMnemonic",
@@ -500,9 +501,9 @@ export default defineComponent({
   },
   components: {},
   mounted() {
-    this.language.keepthese = chrome.i18n.getMessage("keepthese");
-    this.language.backyour = chrome.i18n.getMessage("backyour");
-    this.language.continue = chrome.i18n.getMessage("continue");
+    this.language.keepthese = getMessage("keepthese");
+    this.language.backyour = getMessage("backyour");
+    this.language.continue = getMessage("continue");
   },
   methods: {
     copy() {

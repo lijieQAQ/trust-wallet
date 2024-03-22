@@ -1,6 +1,6 @@
 <template>
   <div class="create-new-wallet">
-    <div class="py-[2.75rem]">
+    <div class="py-[12px]">
       <img src="../../../assets/logo.png" alt="" class="w-[62px] mx-auto" />
     </div>
     <div
@@ -323,6 +323,7 @@
 </template>
 
 <script lang="ts">
+import { getMessage } from "@/utils/Utils";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "CreateNewWallet",
@@ -357,30 +358,30 @@ export default defineComponent({
   },
   components: {},
   mounted() {
-    this.language.passwordprompt = chrome.i18n.getMessage("passwordprompt");
-    this.language.setpassword = chrome.i18n.getMessage("setpassword");
-    this.language.newpassword = chrome.i18n.getMessage("newpassword");
-    this.language.password = chrome.i18n.getMessage("password");
-    this.language.passwordconstraints_1 = chrome.i18n.getMessage(
+    this.language.passwordprompt = getMessage("passwordprompt");
+    this.language.setpassword = getMessage("setpassword");
+    this.language.newpassword = getMessage("newpassword");
+    this.language.password = getMessage("password");
+    this.language.passwordconstraints_1 = getMessage(
       "passwordconstraints_1"
     );
-    this.language.passwordconstraints_2 = chrome.i18n.getMessage(
+    this.language.passwordconstraints_2 = getMessage(
       "passwordconstraints_2"
     );
-    this.language.passwordconstraints_3 = chrome.i18n.getMessage(
+    this.language.passwordconstraints_3 = getMessage(
       "passwordconstraints_3"
     );
-    this.language.passwordconstraints_4 = chrome.i18n.getMessage(
+    this.language.passwordconstraints_4 = getMessage(
       "passwordconstraints_4"
     );
     this.language.confirmnewpassword =
-      chrome.i18n.getMessage("confirmnewpassword");
-    this.language.repeatpassword = chrome.i18n.getMessage("repeatpassword");
-    this.language.termsservice_1 = chrome.i18n.getMessage("termsservice_1");
-    this.language.termsservice_2 = chrome.i18n.getMessage("termsservice_2");
-    this.language.period = chrome.i18n.getMessage("period");
-    this.language.return = chrome.i18n.getMessage("return");
-    this.language.next = chrome.i18n.getMessage("next");
+      getMessage("confirmnewpassword");
+    this.language.repeatpassword = getMessage("repeatpassword");
+    this.language.termsservice_1 = getMessage("termsservice_1");
+    this.language.termsservice_2 = getMessage("termsservice_2");
+    this.language.period = getMessage("period");
+    this.language.return = getMessage("return");
+    this.language.next = getMessage("next");
   },
   methods: {
     submit() {

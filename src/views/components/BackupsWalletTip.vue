@@ -491,6 +491,7 @@
 </template>
 
 <script lang="ts">
+import { getMessage } from "@/utils/Utils";
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "BackupsWalletTip",
@@ -500,15 +501,15 @@ export default defineComponent({
         keepthese: "",
         backyour: "",
         continue: "",
-        backlater: chrome.i18n.getMessage("backlater")
+        backlater: getMessage("backlater")
       },
     };
   },
   created() {
-    this.language.keepthese = chrome.i18n.getMessage("keepthese");
-    this.language.backyour = chrome.i18n.getMessage("backyour");
-    this.language.continue = chrome.i18n.getMessage("continue");
-    this.language.backnow = chrome.i18n.getMessage("backnow");
+    this.language.keepthese = getMessage("keepthese");
+    this.language.backyour = getMessage("backyour");
+    this.language.continue = getMessage("continue");
+    this.language.backnow = getMessage("backnow");
   },
   components: {},
   methods: {

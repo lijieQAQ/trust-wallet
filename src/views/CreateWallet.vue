@@ -174,6 +174,7 @@ import CreateNewWallet from "./components/CreateNewWallet.vue";
 import * as bip39 from "bip39";
 import { LocalWalletModel } from "@/Data/Wallet";
 import SwiperBanner from "./components/SwiperBanner.vue";
+import { getMessage } from "@/utils/Utils";
 
 export default defineComponent({
   name: "CreateWallet",
@@ -205,12 +206,12 @@ export default defineComponent({
   },
   mounted() {
     this.app = getCurrentInstance();
-    this.language.welcome = chrome.i18n.getMessage("welcome");
-    this.language.slogan = chrome.i18n.getMessage("slogan");
-    this.language.addnew_1 = chrome.i18n.getMessage("addnew_1");
-    this.language.addnew = chrome.i18n.getMessage("addnew");
-    this.language.importwallet = chrome.i18n.getMessage("importwallet");
-    this.language.secretphrase = chrome.i18n.getMessage("secretphrase");
+    this.language.welcome = getMessage("welcome");
+    this.language.slogan = getMessage("slogan");
+    this.language.addnew_1 = getMessage("addnew_1");
+    this.language.addnew = getMessage("addnew");
+    this.language.importwallet = getMessage("importwallet");
+    this.language.secretphrase = getMessage("secretphrase");
   },
   methods: {
     // 备份钱包初始化
@@ -249,6 +250,10 @@ export default defineComponent({
     async createWallet() {
       // 创建钱包
       const wallet = await initWallet(this.mnemonic);
+      if (wallet.error) {
+        this.$toast(wallet.error);
+        return false;
+      }
       const walletDes = this.encryptByDES(
         JSON.stringify(wallet),
         this.newPassword

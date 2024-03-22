@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import { getMessage } from "@/utils/Utils";
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -16,12 +17,12 @@ export default defineComponent({
   components: {},
   data: () => {
     return {
-      a: chrome.i18n.getMessage("extensionName"),
+      a: getMessage("extensionName"),
     };
   },
   created() {
-    console.log(chrome.i18n.getMessage("title"));
-    console.log(chrome.i18n.getMessage("content"));
+    console.log(getMessage("title"));
+    console.log(getMessage("content"));
   },
   methods: {},
 });
@@ -32,8 +33,8 @@ export default defineComponent({
   .logo {
     width: 62px;
     height: 62px;
-    margin-top: 2.75rem;
-    margin-bottom: 2.75rem;
+    margin-top: 12px;
+    margin-bottom: 12px;
   }
   overflow: hidden;
   .swiper-wrapper {
