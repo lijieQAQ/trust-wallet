@@ -10,7 +10,6 @@
     "default_popup": "pages/popup.html"
   },
   "permissions": [
-    "activeTab"
   ],
   "host_permissions": [
     "api.binance.com",
@@ -28,17 +27,6 @@
     "extension_pages": "script-src 'self'; object-src 'self'",
     "sandbox": "sandbox allow-scripts; script-src 'self'; object-src 'self'"
   },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://*/*"
-      ],
-      "js": [
-        "content.js"
-      ],
-      "run_at": "document_end"
-    }
-  ],
   "options_page": "pages/options.html",
   "web_accessible_resources": [
     {

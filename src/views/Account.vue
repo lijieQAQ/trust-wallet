@@ -270,7 +270,7 @@ export default defineComponent({
           localStorage.removeItem("wallet");
           this.$router.push("create-wallet");
         } else {
-          if (this.wallet[index].isDefault === 0) {
+          if (this.wallets[index].isDefault === 0) {
             this.wallets = this.wallets.filter((_, _index) => _index !== index);
             localStorage.setItem("wallet", JSON.stringify(this.wallets));
           } else {

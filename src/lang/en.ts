@@ -1,7 +1,7 @@
 // en.js
 export default {
   title: {
-    message: "Solana Wallet",
+    message: "Sol Wallet",
     description:
       "Secure crypto wallet to access your digital assets across solana networks.",
   },
@@ -91,11 +91,11 @@ export default {
     description: "The content of the extension page",
   },
   welcome: {
-    message: "Welcome Solana Wallet Extension",
+    message: "Welcome Sol Wallet Extension",
     description: "The content of the extension page",
   },
   slogan: {
-    message: "Solana wallet trusted by millions of people",
+    message: "Sol wallet trusted by millions of people",
     description: "The content of the extension page",
   },
   backuptips: {
@@ -151,7 +151,7 @@ export default {
     description: "The content of the extension page",
   },
   slogan_1: {
-    message: "Safe and reliable Solana cryptocurrency wallet",
+    message: "Safe and reliable Sol cryptocurrency wallet",
     description: "The content of the extension page",
   },
   unlock: {
@@ -361,7 +361,7 @@ export default {
     description: "The content of the extension page",
   },
   resetwallettip6: {
-    message: "Solana Wallet does not store or have access to your Secret Phrase.",
+    message: "Sol Wallet does not store or have access to your Secret Phrase.",
     description: "The content of the extension page",
   },
   resetwallettip7: {

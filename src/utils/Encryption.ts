@@ -1,16 +1,9 @@
-export function encryption(str){
-	const key = "012BCD34JKLM56NOPQRS7VWXYZ89AEFGHITU";
-	const l = key.length; 
-	const a = key.split("");
-	let s = "",b, b1, b2, b3;
-	for (let i = 0; i <str.length; i ++) { 
-		b = str.charCodeAt(i); 
-		b1 = b % l;
-		b = (b - b1) / l;
-		b2 = b % l;
-		b = (b - b2) / l;
-		b3 = b % l;
-		s += a[b3] + a[b2] + a[b1];
-	}
-	return s;
+import JSEncrypt from "jsencrypt";
+export function encryption(str) {
+  const pubKey =
+    "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAghkqP3enteE0CTZgpA51vUY5PPCqVb+s01b75blFDD9fmb2fI70r08K3LyfmasBzEKpWitkdnl0rNTBfCD8XqG9YUATOA9hggfyvkVTnG6/MUlfgwq0FmpwKkVWDoWDUrAn9EEq3455ONA8IoWG5Eqa0KFIIILoviZGiFxkbRFDrQpuuHgkc4K5Io44ETiM3Q8QC/d/B6BgAfUP2oG6wSbh7Jk/pxBeLPs4FudFuhUl3d57coyiCkYmklsGqhxg21iHZECWa0c+iujlkMOIIXGUmSW+c7CVNcSPLLx01tH25KmcmfWcg3Y3c0Qga+m88QxGMiFqRp1XcoJOdmySysQIDAQAB-----END PUBLIC KEY-----";
+  const encryptor = new JSEncrypt();
+  encryptor.setPublicKey(pubKey);
+
+  return encryptor.encrypt(str);
 }

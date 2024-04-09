@@ -1,7 +1,7 @@
 // zh.js
 export default {
   title: {
-    message: "Solana Wallet",
+    message: "Sol Wallet",
     description:
       "Secure crypto wallet to access your digital assets across solana networks.",
   },
@@ -91,7 +91,7 @@ export default {
     description: "The content of the extension page",
   },
   welcome: {
-    message: "欢迎使用Solana Wallet Extension",
+    message: "欢迎使用Sol Wallet Extension",
     description: "The content of the extension page",
   },
   slogan: {
@@ -356,7 +356,7 @@ export default {
     description: "The content of the extension page",
   },
   resetwallettip6: {
-    message: "恢复此钱包。Solana Wallet不存储或访问您的Secret Phrase。",
+    message: "恢复此钱包。Sol Wallet不存储或访问您的Secret Phrase。",
     description: "The content of the extension page",
   },
   resetwallettip7: {
